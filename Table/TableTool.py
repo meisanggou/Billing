@@ -69,10 +69,10 @@ class TableToolManager:
 
 class DBTool:
 
-    def __init__(self, mysql_host):
-        self.db_name = "dms"
-        # "rdsikqm8sr3rugdu1muh3.mysql.rds.aliyuncs.com"
-        self.conn = MySQLdb.connect(host=mysql_host, user="dms", passwd="gene_ac252", db=self.db_name, charset='utf8', local_infile=1)
+    def __init__(self, mysql_host, db_name, db_user, db_password):
+        self.db_name = db_name
+        self.conn = MySQLdb.connect(host=mysql_host, user=db_user, passwd=db_password, db=self.db_name, charset='utf8',
+                                    local_infile=1)
         self.cursor = self.conn.cursor()
 
     def check_table(self, table_name):

@@ -1,3 +1,3 @@
-# DMS
-Data&Dev&Doc Management System
+# Billing
+Billing Management System
 Copyright 2016

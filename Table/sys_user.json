@@ -5,17 +5,30 @@
                 "pri_key": true,
                 "col_comment": "",
                 "col_name": "user_name",
-                "col_type": "varchar(15)"
+                "col_type": "varchar(20)"
             },
             {
                 "col_comment": "",
-                "col_name": "role",
-                "col_type": "int(11)"
+                "col_name": "password",
+                "col_type": "char(66)"
             },
             {
                 "col_comment": "",
                 "col_name": "nick_name",
-                "col_type": "varchar(20)"
+                "col_type": "varchar(20)",
+                "allow_null": true
+            },
+            {
+                "col_comment": "",
+                "col_name": "tel",
+                "col_type": "char(11)",
+                "allow_null": true
+            },
+            {
+                "col_comment": "",
+                "col_name": "role",
+                "col_type": "int(11)",
+                "default_value": 0
             },
             {
                 "col_comment": "",
@@ -26,7 +39,7 @@
             {
                 "col_comment": "",
                 "col_name": "creator",
-                "col_type": "varchar(15)",
+                "col_type": "varchar(20)",
                 "allow_null": true
             },
             {

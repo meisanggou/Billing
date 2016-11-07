@@ -13,7 +13,7 @@ class DB(object):
     cursor = None
     _sock_file = ''
 
-    def __init__(self, host="", mysql_user="dms", mysql_password="gene_ac252", mysql_db="dms"):
+    def __init__(self, host="", mysql_user="msg", mysql_password="msg1237", mysql_db="billing"):
         if env == "Development":
             self.host = "192.168.120.10"
         elif env == "Production":
@@ -70,13 +70,13 @@ class DB(object):
                     % (select_item, table_name, "=%s AND ".join(dict(where_value).keys()))
         return self.execute(sql_query, args)
 
-    def execute_insert(self, table_name, args, ignore=False):
-        keys = dict(args).keys()
+    def execute_insert(self, table_name, kwargs, ignore=False):
+        keys = dict(kwargs).keys()
         if ignore is True:
             sql_query = "INSERT IGNORE INTO %s (%s) VALUES (%%(%s)s);" % (table_name, ",".join(keys), ")s,%(".join(keys))
         else:
             sql_query = "INSERT INTO %s (%s) VALUES (%%(%s)s);" % (table_name, ",".join(keys), ")s,%(".join(keys))
-        return self.execute(sql_query, args=args)
+        return self.execute(sql_query, args=kwargs)
 
     def execute_update(self, table_name, update_value, where_value):
         args = dict(update_value).values()

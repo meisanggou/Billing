@@ -5,16 +5,19 @@ import sys
 import requests
 from datetime import datetime
 sys.path.append("..")
+import hashlib
+from werkzeug.security import generate_password_hash, check_password_hash
 from Tools.Mysql_db import DB
 from Check import check_char_num_underline as check_user, check_account_format
-from Class import TIME_FORMAT, env
+from Class import TIME_FORMAT
 
 __author__ = 'ZhouHeng'
 
-if env == "Development":
-    jy_auth_host = "http://192.168.120.2:6011/auth"
-else:
-    jy_auth_host = "http://100.98.137.7/auth"
+
+def _md5_hash(s):
+    m = hashlib.md5()
+    m.update(s)
+    return m.hexdigest()
 
 
 class UserManager:
@@ -22,6 +25,7 @@ class UserManager:
     def __init__(self):
         self.db = DB()
         self.user = "sys_user"
+        self._salt_password = "meisanggou"
         self.default_password = "gene.ac"
         self._data_role_desc = {"module_desc": u"数据传输", "role_list":  {
             "market": {"role_desc": u"市场", "role_value": 1},
@@ -73,22 +77,30 @@ class UserManager:
             for role, value in role_module["role_list"].items():
                 self.role_value[role] = value["role_value"]
 
-    def new(self, user_name, role, nick_name, creator):
-        if check_user(user_name, 1, 15) is False:
-            return False, u"用户名只能由字母数字和下划线组成且长度不大于20"
-        select_sql = "SELECT role FROM %s WHERE user_name='%s';" % (self.user, user_name)
-        result = self.db.execute(select_sql)
-        if result > 0:
-            return False, u"用户名已存在"
-        add_time = datetime.now().strftime(TIME_FORMAT)
-        insert_sql = "INSERT INTO %s (user_name,role,nick_name,creator,add_time) " \
-                     "VALUES ('%s',%s,'%s','%s','%s');" \
-                     % (self.user, user_name, role, nick_name, creator, add_time)
-        self.db.execute(insert_sql)
-        return True, user_name
+    def _md5_hash_password(self, account, password):
+        md5_password = _md5_hash(account + password + account)
+        return (md5_password + self._salt_password).upper()
+
+    def update_password(self, account, new_password):
+        en_password = generate_password_hash(self._md5_hash_password(account, new_password))
+        update_value = {"password": en_password, "login_success": 1, "unlock_time": None}
+        result = self.db.execute_update(self.auth, update_value=update_value, where_value={"account": account})
+        return result
+
+    def _password_check(self, password, db_password, account):
+        if len(password) <= 20:
+            if len(db_password) == 66:
+                if check_password_hash(db_password, self._md5_hash_password(account, password)) is True:
+                    return True
+        return False
+
+    def insert_user(self, user_name, password, tel=None):
+        en_password = generate_password_hash(self._md5_hash_password(user_name, password))
+        result = self.db.execute_insert(self.user, kwargs={"user_name": user_name, "password": en_password, "tel": tel})
+        return result
 
     def check(self, user_name, password):
-        check_url = "%s/confirm/" % jy_auth_host
+        check_url = "%s/confirm/"
         try:
             res = requests.post(check_url, json={"account": user_name, "password": password})
         except requests.ConnectionError as ce:
@@ -134,7 +146,7 @@ class UserManager:
         return False, u"账户名不存在"
 
     def change_password(self, user_name, old_password, new_password):
-        change_url = "%s/password/" % jy_auth_host
+        change_url = "%s/password/"
         try:
             res = requests.put(change_url, json={"account": user_name, "password": old_password,
                                                   "new_password": new_password})
@@ -146,7 +158,7 @@ class UserManager:
         return True, u"更新成功"
 
     def send_code(self, user_name, password, tel):
-        change_url = "%s/code/bind/" % jy_auth_host
+        change_url = "%s/code/bind/"
         try:
             res = requests.post(change_url, json={"account": user_name, "password": password, "tel": tel})
         except requests.ConnectionError as ce:
@@ -163,7 +175,7 @@ class UserManager:
         return False, r["message"]
 
     def bind_tel(self, user_name, password, tel, code):
-        change_url = "%s/tel/" % jy_auth_host
+        change_url = "%s/tel/"
         try:
             res = requests.post(change_url, json={"account": user_name, "password": password, "tel": tel, "code": code})
         except requests.ConnectionError as ce:
@@ -271,3 +283,6 @@ class UserManager:
         self.db.execute(update_sql)
         return True, "success"
 
+if __name__ == "__main__":
+    user = UserManager()
+    user.insert_user("zh_test", "admin0")
