@@ -28,11 +28,6 @@ user_m = UserManager()
 
 @dms_view.route("/", methods=["GET"])
 def index():
-    if "OSSAccessKeyId" in request.args:
-        with open("xml.txt", "r") as rx:
-            resp = make_response(rx.read(), 200)
-            resp.headers["Content-Type"] = "application/xml"
-            return resp
     next_url = ""
     if current_user.is_authenticated:
         if current_user.role == 0:

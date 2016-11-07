@@ -1,4 +1,4 @@
-for port in 2200 2300
+for port in 2500
 do
         lsof -i:$port | awk '{print $2}' | tail -n +2| while read id
         do

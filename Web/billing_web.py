@@ -5,7 +5,6 @@ sys.path.append("..")
 from flask import Flask, request, make_response, g, jsonify
 from flask_login import current_user
 from Web import *
-from Web.redis_session import RedisSessionInterface
 
 __author__ = 'zhouheng'
 
@@ -50,8 +49,6 @@ def create_app():
     def handle_500(e):
         return str(e)
 
-    msg_web.session_interface = RedisSessionInterface(prefix=session_id_prefix)
-
     msg_web.static_folder = "static2"
     msg_web.session_cookie_name = session_cookie_name
     if cookie_domain != "":
@@ -93,4 +90,4 @@ dms_scheduler.start()
 
 if __name__ == '__main__':
     print("start run")
-    msg_web.run(port=2200)
+    msg_web.run(port=2500)
