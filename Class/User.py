@@ -81,12 +81,6 @@ class UserManager:
         md5_password = _md5_hash(account + password + account)
         return (md5_password + self._salt_password).upper()
 
-    def update_password(self, account, new_password):
-        en_password = generate_password_hash(self._md5_hash_password(account, new_password))
-        update_value = {"password": en_password, "login_success": 1, "unlock_time": None}
-        result = self.db.execute_update(self.auth, update_value=update_value, where_value={"account": account})
-        return result
-
     def _password_check(self, password, db_password, account):
         if len(password) <= 20:
             if len(db_password) == 66:
@@ -100,23 +94,15 @@ class UserManager:
         return result
 
     def check(self, user_name, password):
-        check_url = "%s/confirm/"
-        try:
-            res = requests.post(check_url, json={"account": user_name, "password": password})
-        except requests.ConnectionError as ce:
-            return False, u"暂时无法登录，请稍后重试"
-        r = res.json()
-        if r["status"] != 1:
-            return False, r["message"]
-        select_sql = "SELECT user_name,role FROM %s WHERE user_name='%s';" % (self.user, r["data"]["account"])
-        result = self.db.execute(select_sql)
+        cols = ["user_name", "nick_name", "password", "tel", "role"]
+        result = self.db.execute_select(self.user, where_value={"user_name": user_name}, cols=cols)
         if result <= 0:
-            r["data"]["role"] = 0
-            return True, r["data"]
-        db_r = self.db.fetchone()
-        role = db_r[1]
-        r["data"]["role"] = role
-        return True, r["data"]
+            return False, "账户不存在"
+        user_name, nick_name, db_password, tel, role = self.db.fetchone()
+        if self._password_check(password, db_password, user_name) is False:
+            return False, "密码不正确"
+        u_info = {"user_name": user_name, "nick_name": nick_name, "tel": tel, "role": role}
+        return True, u_info
 
     def check_vip(self, user_name):
         if user_name != "system":
@@ -133,28 +119,15 @@ class UserManager:
             if self.db.fetchone()[0] == user_name:
                 return False, u"您已注册过该用户"
             return False, u"该用户已被他人注册"
-        check_url = "%s/account/" % jy_auth_host
-        try:
-            res = requests.post(check_url, json={"list_account": [check_name]})
-        except requests.ConnectionError as ce:
-            return False, u"无法检测账户 ，请稍后重试"
-        r = res.json()
-        if r["status"] != 1:
-            return False, r["message"]
-        if len(r["data"]) == 1 and r["data"][0].lower() == check_name.lower():
-            return True, r["data"][0]
-        return False, u"账户名不存在"
+        return True, u"可以注册"
 
     def change_password(self, user_name, old_password, new_password):
-        change_url = "%s/password/"
-        try:
-            res = requests.put(change_url, json={"account": user_name, "password": old_password,
-                                                  "new_password": new_password})
-        except requests.ConnectionError as ce:
-            return False, u"暂时无法更改密码，请稍后重试"
-        r = res.json()
-        if r["status"] != 2:
-            return False, r["message"]
+        result, u_info = self.check(user_name, old_password)
+        if result is False:
+            return False, u_info
+        en_password = generate_password_hash(self._md5_hash_password(user_name, new_password))
+        update_value = {"password": en_password}
+        self.db.execute_update(self.user, update_value=update_value, where_value={"user_name": user_name})
         return True, u"更新成功"
 
     def send_code(self, user_name, password, tel):

@@ -57,10 +57,10 @@ dms_scheduler.add_listener(err_listener)
 
 
 class User(UserMixin):
-    account = ""
+    user_name = ""
 
     def get_id(self):
-        return self.account
+        return self.user_name
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'

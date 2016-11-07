@@ -60,27 +60,24 @@ def login():
     result, info = user_m.check(user_name, password)
     if result is False:
         return info
-    if info["tel"] is None:
-        session["user_name"] = info["account"]
-        session["bind_token"] = gen_salt(57)
-        session["expires_in"] = datetime.now() + timedelta(seconds=300)
-        session["password"] = password
-        return redirect("%s/tel/" % url_prefix)
+    # if info["tel"] is None:
+    #     session["user_name"] = info["user_name"]
+    #     session["bind_token"] = gen_salt(57)
+    #     session["expires_in"] = datetime.now() + timedelta(seconds=300)
+    #     session["password"] = password
+    #     return redirect("%s/tel/" % url_prefix)
     if "remember" in request_data and request_data["remember"] == "on":
         remember = True
     else:
         remember = False
     user = User()
-    user.account = info["account"]
+    user.user_name = info["user_name"]
     login_user(user, remember=remember)
     session["role"] = info["role"]
     if "next" in request_data and request_data["next"] != "":
         return redirect(request_data["next"])
-    if session["role"] == 0:
-            return u"您还没有任何权限，请联系管理员授权"
-    else:
-        resp = redirect(url_prefix + "/portal/")
-        return resp
+    resp = redirect(url_prefix + "/portal/")
+    return resp
 
 
 @dms_view.route("/login/vip/", methods=["POST"])
