@@ -8,7 +8,6 @@ sys.path.append("..")
 from Tools.Mysql_db import DB
 from Tools.MyEmail import MyEmailManager
 from Data import DataManager
-from Market import MarketManager
 from Upload import UploadManager
 from Calc import CalcManager
 from User import UserManager
@@ -33,17 +32,6 @@ class ControlManager:
     def __init__(self):
         self.db = DB()
         self.sys_user = "sys_user"
-        self.data = DataManager()
-        self.market = MarketManager()
-        self.market_attribute = self.market.attribute
-        self.market_attribute_ch = self.market.attribute_ch
-        self.market_target = self.market.target
-        self.upload = UploadManager()
-        self.upload_attribute = self.upload.attribute
-        self.upload_attribute_ch = self.upload.attribute_ch
-        self.calc = CalcManager()
-        self.calc_attribute = self.calc.attribute
-        self.calc_attribute_ch = self.calc.attribute_ch
         self.user = UserManager()
         self.user_role_desc = self.user.role_desc
         self.role_value = self.user.role_value
@@ -109,79 +97,6 @@ class ControlManager:
     def get_role_user(self, role):
         return self.user.get_role_user(role)
 
-    def get_data(self):
-        return self.data.get()
-
-    def new_data(self, role, inputuser):
-        if (role & 1) <= 0:
-            return False, u"您的权限不足"
-        result, message = self.data.new(inputuser)
-        return result, message
-
-    def new_market(self, data_no, market_info, inputuser, role):
-        if (role & 1) <= 0:
-            return False, u"您的权限不足"
-        data_info = self.data.get(data_no)
-        if len(data_info) <= 0:
-            return False, u"数据编号不存在"
-        if data_info[0]["status"] != 0:
-            return False, u"无修改权限"
-        result, message = self.market.new(data_no, market_info, inputuser)
-        if result is False:
-            return False, message
-        result, message = self.data.update(data_no, 1)
-        if result is True:
-            if inputuser != "upload":
-                self.send_email(u"%s添加了市场记录" % inputuser, data_no, market_info, self.market_attribute, self.market_attribute_ch)
-        return True, data_no
-
-    def new_upload(self, data_no, upload_info, inputuser, role):
-        if (role & 2) <= 0:
-            return False, u"您的权限不足"
-        data_info = self.data.get(data_no)
-        if len(data_info) <= 0:
-            return False, u"数据编号不存在"
-        if data_info[0]["status"] != 1:
-            return False, u"无修改权限"
-        result, message = self.upload.new(data_no, upload_info, inputuser)
-        if result is False:
-            return False, message
-        result, message = self.data.update(data_no, 2)
-        if result is True:
-            self.send_email(u"%s添加了上传记录" % inputuser, data_no, upload_info, self.upload_attribute, self.upload_attribute_ch)
-        return True, ""
-
-    def new_calc(self, data_no, calc_info, inputuser, role):
-        if (role & 4) <= 0:
-            return False, u"您的权限不足"
-        data_info = self.data.get(data_no)
-        if len(data_info) <= 0:
-            return False, u"数据编号不存在"
-        if data_info[0]["status"] != 2:
-            return False, u"无修改权限"
-        result, message = self.calc.new(data_no, calc_info, inputuser)
-        if result is False:
-            return False, message
-        result, message = self.data.update(data_no, 3)
-        if result is True:
-            if inputuser != "calc":
-                self.send_email(u"%s添加了计算记录" % inputuser, data_no, calc_info, self.calc_attribute, self.calc_attribute_ch)
-        return True, ""
-
-    def get_market(self, data_no, role):
-        if (role & 1) <= 0:
-            return False, u"您的权限不足"
-        return self.market.select(data_no)
-
-    def get_upload(self, data_no, role):
-        if (role & 2) <= 0:
-            return False, u"您的权限不足"
-        return self.upload.select(data_no)
-
-    def get_calc(self, data_no, role):
-        if (role & 4) <= 0:
-            return False, u"您的权限不足"
-        return self.calc.select(data_no)
 
     # 针对开发者的应用
     def show_operate_auth(self, role):
