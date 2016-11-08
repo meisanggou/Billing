@@ -1,2 +1,0 @@
-Content-Type	1	此值必须是application/json
-authorization	1	用户身份验证信息，包含username和password属性，username指用户帐户名，password指用户的密码
