@@ -78,13 +78,21 @@ class DB(object):
             sql_query = "INSERT INTO %s (%s) VALUES (%%(%s)s);" % (table_name, ",".join(keys), ")s,%(".join(keys))
         return self.execute(sql_query, args=kwargs)
 
-    def execute_update(self, table_name, update_value, where_value):
+    def execute_update(self, table_name, update_value, where_value=None, where_is_none=[]):
         args = dict(update_value).values()
         if len(args) <= 0:
             return 0
-        where_args = dict(where_value).values()
-        args.extend(where_args)
-        sql_query = "UPDATE %s SET %s=%%s WHERE %s=%%s;" % (table_name, "=%s,".join(dict(update_value).keys()), "=%s,".join(dict(where_value).keys()))
+        sql_query = "UPDATE %s SET %s=%%s WHERE " % (table_name, "=%s,".join(dict(update_value).keys()))
+        where_cond = []
+        if where_value is not None:
+            where_args = dict(where_value).values()
+            args.extend(where_args)
+            for key in dict(where_value).keys():
+                where_cond.append("%s=%%s" % key)
+        if len(where_is_none) > 0:
+            for key in where_is_none:
+                where_cond.append("%s is NULL" % key)
+        sql_query += " AND ".join(where_cond)
         return self.execute(sql_query, args=args)
 
     def execute_delete(self, table_name, where_value):
