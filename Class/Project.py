@@ -14,14 +14,14 @@ class ProjectManager:
         self.t_project = "project_info"
         self.t_user_project = "user_project"
 
-    def insert_user_project(self, user_name, project_no, project_role):
+    def insert_user_project(self, project_no, user_name, project_role):
         join_time = int(time())
         kwargs = {"user_name": user_name, "project_no": project_no, "project_role": project_role,
                   "join_time": join_time}
         result = self.db.execute_insert(self.t_user_project, kwargs=kwargs, ignore=True)
         return result
 
-    def update_user_project(self, user_name, project_no, project_role):
+    def update_user_project(self, project_no, user_name, project_role):
         result = self.db.execute_update(self.t_user_project, update_value={"project_role": project_role},
                                         where_value={"user_name": user_name, "project_no": project_no})
         return result

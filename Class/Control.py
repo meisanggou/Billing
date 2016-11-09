@@ -7,9 +7,6 @@ from datetime import datetime
 sys.path.append("..")
 from Tools.Mysql_db import DB
 from Tools.MyEmail import MyEmailManager
-from Data import DataManager
-from Upload import UploadManager
-from Calc import CalcManager
 from User import UserManager
 from Dev import DevManager
 from APIHelp import HelpManager
@@ -20,6 +17,7 @@ from IP import IPManager
 from Release import ReleaseManager
 from ParamFormat import ParamFormatManager
 from PullRequest import PullRequestManager
+from Project import ProjectManager
 from Class import DATE_FORMAT_STR, release_dir
 
 __author__ = 'ZhouHeng'
@@ -45,6 +43,7 @@ class ControlManager:
         self.pull_request_man = PullRequestManager()
         self.manger_email = ["budechao@ict.ac.cn", "biozy@ict.ac.cn"]
         self.jy_log = LogManager()
+        self.pro_man = ProjectManager()
 
     def check_user_name_exist(self, user_name, role, check_user_name):
         if role & self.role_value["user_new"] <= 0:
@@ -723,3 +722,22 @@ class ControlManager:
     # 针对pull request
     def add_pull_request(self, **kwargs):
         return self.pull_request_man.add_pull_request(**kwargs)
+
+    # 针对项目的操作
+    def get_project(self, user_name):
+        return self.pro_man.get_project(user_name)
+
+    def get_project_user(self, project_no, project_role):
+        return self.pro_man.get_project_user(project_no)
+
+    def new_project_info(self, user_name, user_role, project_name, project_desc):
+        return self.pro_man.new_project_info(user_name, project_name, project_desc)
+
+    def update_project_info(self, project_role, project_no, project_name, project_desc):
+        return self.pro_man.update_project_info(project_no, project_name, project_desc)
+
+    def new_project_member(self, project_role, project_no, member_info):
+        return self.pro_man.insert_user_project(project_no, member_info["user_name"], member_info["project_role"])
+
+    def update_project_member(self, project_role, project_no, member_info):
+        return self.pro_man.update_project_info(project_no, member_info["user_name"], member_info["project_role"])
