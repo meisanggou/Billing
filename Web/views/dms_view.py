@@ -11,7 +11,7 @@ from Class.User import UserManager
 from Web import User
 
 from Web import dms_url_prefix, dev_url_prefix, api_url_prefix, bug_url_prefix, right_url_prefix
-from Web import log_url_prefix, create_blue, param_url_prefix, release_url_prefix, status_url_prefix
+from Web import log_url_prefix, create_blue, param_url_prefix, status_url_prefix
 from Web import control
 
 sys.path.append('..')
@@ -72,26 +72,19 @@ def login():
         remember = False
     user = User()
     user.user_name = info["user_name"]
+    print(user.user_name)
     login_user(user, remember=remember)
     session["role"] = info["role"]
+    p_info = control.get_project(user_name)
+    if p_info is None:
+        session["project_no"] = None
+    else:
+        session["project_no"] = p_info["project_no"]
+        session["project_name"] = p_info["project_name"]
     if "next" in request_data and request_data["next"] != "":
         return redirect(request_data["next"])
     resp = redirect(url_prefix + "/portal/")
     return resp
-
-
-@dms_view.route("/login/vip/", methods=["POST"])
-def login_vip():
-    request_data = request.json
-    user_name = request_data["user_name"]
-    result, info = user_m.check_vip(user_name)
-    if result is False:
-        return jsonify({"status": False, "data": "fail"})
-    user = User()
-    user.account = info["account"]
-    login_user(user)
-    session["role"] = info["role"]
-    return jsonify({"status": True, "data": "success"})
 
 
 @dms_view.route("/password/", methods=["GET"])
@@ -153,7 +146,7 @@ def bind_tel_func():
             result, info = control.bind_tel(user_name, session["password"], tel, code)
             if result is True:
                 user = User()
-                user.account = user_name
+                user.user_name = user_name
                 login_user(user)
                 del session["bind_token"]
                 del session["expires_in"]
@@ -224,7 +217,7 @@ def register():
         for role_key, role_info in role_module["role_list"].items():
             if role_key in request.form and request.form[role_key] == "on":
                 user_role += role_info["role_value"]
-    result, message = control.new_user(user_name, user_role, nick_name, current_user.account, current_user.role)
+    result, message = control.new_user(user_name, user_role, nick_name, current_user.user_name, current_user.role)
     if result is False:
         return message
     return redirect(url_for("dms_view.select_portal"))
@@ -235,7 +228,7 @@ def register():
 def register_check():
     request_data = request.json
     check_name = request_data["check_name"]
-    result, message = control.check_user_name_exist(current_user.account, current_user.role, check_name)
+    result, message = control.check_user_name_exist(current_user.user_name, current_user.role, check_name)
     if result is True:
         session["register_name"] = message
     return jsonify({"status": True, "data": {"result": result, "message": message}})
@@ -244,7 +237,7 @@ def register_check():
 @dms_view.route("/authorize/", methods=["GET"])
 @login_required
 def authorize_page():
-    result, my_user = control.get_my_user(current_user.account, current_user.role)
+    result, my_user = control.get_my_user(current_user.user_name, current_user.role)
     if result is False:
         return my_user
     return render_template("authorize.html", my_user=my_user, url_prefix=url_prefix,
@@ -262,7 +255,7 @@ def authorize():
         for role_key, role_info in role_module["role_list"].items():
             if role_key in request.form and request.form[role_key] == "on":
                 user_role += role_info["role_value"]
-    result, message = control.update_my_user_role(current_user.role, current_user.account, perm_user, user_role)
+    result, message = control.update_my_user_role(current_user.role, current_user.user_name, perm_user, user_role)
     if result is False:
         return message
     return redirect(url_for("dms_view.authorize_page"))
@@ -274,4 +267,4 @@ def select_portal():
     return render_template("portal.html", api_url_prefix=api_url_prefix, dev_url_prefix=dev_url_prefix, bug_url_prefix=bug_url_prefix,
                            dms_url_prefix=dms_url_prefix, right_url_prefix=right_url_prefix,
                            log_url_prefix=log_url_prefix, param_url_prefix=param_url_prefix,
-                           release_url_prefix=release_url_prefix, status_url_prefix=status_url_prefix)
+                           status_url_prefix=status_url_prefix)

@@ -22,8 +22,6 @@ ip = IPManager()
 control = ControlManager()
 my_email = MyEmailManager("/home/msg/conf/")
 dms_scheduler = BackgroundScheduler()
-# job_store = SQLAlchemyJobStore(url=db.url)
-# dms_scheduler.add_jobstore(job_store)
 
 
 def err_listener(ev):
@@ -67,13 +65,13 @@ login_manager.session_protection = 'strong'
 
 
 @login_manager.user_loader
-def load_user(account):
+def load_user(user_name):
     user = User()
-    user.account = account
+    user.user_name = user_name
     if "role" in session:
         user.role = session["role"]
     else:
-        select_sql = "SELECT role FROM sys_user WHERE user_name='%s';" % account
+        select_sql = "SELECT role FROM sys_user WHERE user_name='%s';" % user_name
         print(select_sql)
         result = db.execute(select_sql)
         if result > 0:
@@ -98,26 +96,7 @@ dms_url_prefix = ""
 data_url_prefix = "/data"
 log_url_prefix = "/log"
 tools_url_prefix = "/tools"
-release_url_prefix = "/dev/release"
-github_url_prefix = "/github"
-chat_url_prefix = "/chat"
-
-data_dir = "/ossdata/dmsdata"
-
-import os
-if os.path.isdir(data_dir) is False:
-    os.mkdir(data_dir)
-
-
-def company_ip_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if "request_IP" not in g:
-            return make_response(u"因为一些原因页面丢失了", 404)
-        if g.request_IP not in range(company_ips[0], company_ips[1]) and g.user_name != "zh_test":
-            return make_response(u"因为一些原因页面不知道去哪了", 404)
-        return f(*args, **kwargs)
-    return decorated_function
+project_url_prefix = "/project"
 
 
 blues = {}
