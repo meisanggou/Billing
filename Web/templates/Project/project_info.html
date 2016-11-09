@@ -8,14 +8,15 @@
             <ul style="margin-bottom: 1em">
                 <li>
                     <label for="">项目名称：</label>
-                    <input class="box-side width300" id="project_name" type="text" required/>
+                    <input class="box-side width300" id="project_name" type="text" placeholder="项目名称 一旦提交不可修改" required/>
                 </li>
                 <li>
                     <label class="api-describe" for="">项目描述：</label>
                     <textarea class="box-side" rows="3" id="project_desc" required></textarea>
                 </li>
             </ul>
-            <button id="btn_op_module" class="btn btn-success btn-down api-newBtn">新建项目</button>
+            <button id="btn_op_project" class="btn btn-success btn-down api-newBtn">新建项目</button>
         </div>
     </div>
+    {{ 't_js/project/project_info.js' | make_static_html | safe }}
 {% endblock %}

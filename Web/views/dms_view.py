@@ -10,8 +10,8 @@ from werkzeug.security import gen_salt
 from Class.User import UserManager
 from Web import User
 
-from Web import dms_url_prefix, dev_url_prefix, api_url_prefix, bug_url_prefix, right_url_prefix
-from Web import log_url_prefix, create_blue, param_url_prefix, status_url_prefix
+from Web import dms_url_prefix
+from Web import create_blue
 from Web import control
 
 sys.path.append('..')
@@ -72,7 +72,6 @@ def login():
         remember = False
     user = User()
     user.user_name = info["user_name"]
-    print(user.user_name)
     login_user(user, remember=remember)
     session["role"] = info["role"]
     p_info = control.get_project(user_name)
@@ -81,6 +80,7 @@ def login():
     else:
         session["project_no"] = p_info["project_no"]
         session["project_name"] = p_info["project_name"]
+        session["project_role"] = p_info["project_role"]
     if "next" in request_data and request_data["next"] != "":
         return redirect(request_data["next"])
     resp = redirect(url_prefix + "/portal/")
@@ -264,7 +264,4 @@ def authorize():
 @dms_view.route("/portal/", methods=["GET"])
 @login_required
 def select_portal():
-    return render_template("portal.html", api_url_prefix=api_url_prefix, dev_url_prefix=dev_url_prefix, bug_url_prefix=bug_url_prefix,
-                           dms_url_prefix=dms_url_prefix, right_url_prefix=right_url_prefix,
-                           log_url_prefix=log_url_prefix, param_url_prefix=param_url_prefix,
-                           status_url_prefix=status_url_prefix)
+    return render_template("portal.html", dms_url_prefix=dms_url_prefix)

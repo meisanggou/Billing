@@ -68,34 +68,19 @@ login_manager.session_protection = 'strong'
 def load_user(user_name):
     user = User()
     user.user_name = user_name
-    if "role" in session:
-        user.role = session["role"]
-    else:
-        select_sql = "SELECT role FROM sys_user WHERE user_name='%s';" % user_name
-        print(select_sql)
-        result = db.execute(select_sql)
-        if result > 0:
-            user.role = db.fetchone()[0]
-            session["role"] = user.role
-        else:
-            user.role = 0
-            session["role"] = user.role
+    user.project_no = session["project_no"]
+    if user.project_no is not None:
+        user.project_name = session["project_name"]
+        user.project_role = session["project_role"]
+    user.role = session["role"]
     return user
 
 
 login_manager.login_view = "dms_view.index"
 
-api_url_prefix = "/dev/api"
-status_url_prefix = "/dev/api/status"
-test_url_prefix = "/dev/api/test"
-bug_url_prefix = "/dev/bug"
-right_url_prefix = "/dev/right"
-param_url_prefix = "/dev/param"
-dev_url_prefix = "/dev"
+
 dms_url_prefix = ""
-data_url_prefix = "/data"
-log_url_prefix = "/log"
-tools_url_prefix = "/tools"
+
 project_url_prefix = "/project"
 
 

@@ -2,7 +2,7 @@
 # coding: utf-8
 import sys
 sys.path.append("..")
-from flask import Flask, request, make_response, g, jsonify
+from flask import Flask
 from flask_login import current_user
 from Web import *
 
@@ -10,16 +10,23 @@ __author__ = 'zhouheng'
 
 
 def create_app():
-    msg_web = Flask("__name__")
-    msg_web.secret_key = 'meisanggou'
-    login_manager.init_app(msg_web)
+    flask_app = Flask("__name__")
+    flask_app.secret_key = 'meisanggou'
+    login_manager.init_app(flask_app)
+    portal_url = dms_url_prefix + "/portal/"
 
-    @msg_web.before_request
+    @flask_app.before_request
     def before_request():
         test_r, info = normal_request_detection(request.headers, request.remote_addr)
         if test_r is False:
             return make_response(info, 403)
         g.request_IP_s, g.request_IP = info
+        g.portal_url = portal_url
+        g.accept_json = False
+        if "Accept" in request.headers:
+            accept_content = request.headers["Accept"]
+            if accept_content.startswith("application/json"):
+                g.accept_json = True
         if current_user.is_authenticated:
             g.user_role = current_user.role
             g.user_name = current_user.user_name
@@ -31,7 +38,7 @@ def create_app():
         else:
             g.user_role = 0
 
-    @msg_web.after_request
+    @flask_app.after_request
     def after_request(res):
         if res.status_code == 302 or res.status_code == 301:
             if "X-Request-Protocol" in request.headers:
@@ -45,15 +52,15 @@ def create_app():
         res.headers["Server"] = "JingYun Server"
         return res
 
-    @msg_web.errorhandler(500)
+    @flask_app.errorhandler(500)
     def handle_500(e):
         return str(e)
 
-    msg_web.static_folder = "static2"
-    msg_web.session_cookie_name = session_cookie_name
+    flask_app.static_folder = "static2"
+    flask_app.session_cookie_name = session_cookie_name
     if cookie_domain != "":
-        msg_web.config.update(SESSION_COOKIE_DOMAIN=cookie_domain)
-    msg_web.config.update(PERMANENT_SESSION_LIFETIME=600)
+        flask_app.config.update(SESSION_COOKIE_DOMAIN=cookie_domain)
+    flask_app.config.update(PERMANENT_SESSION_LIFETIME=600)
 
     api_files = os.listdir("./views")
     for api_file in api_files:
@@ -63,11 +70,11 @@ def create_app():
     from Web import blues
     for key, value in blues.items():
         if len(value[1]) > 1:
-            msg_web.register_blueprint(value[0], url_prefix=value[1])
+            flask_app.register_blueprint(value[0], url_prefix=value[1])
         else:
-            msg_web.register_blueprint(value[0])
+            flask_app.register_blueprint(value[0])
 
-    env = msg_web.jinja_env
+    env = flask_app.jinja_env
     env.globals["current_env"] = current_env
     env.globals["role_value"] = control.role_value
     env.globals["menu_url"] = dms_url_prefix + "/portal/"
@@ -77,7 +84,7 @@ def create_app():
     env.filters['make_static_url'] = make_static_url
     env.filters['make_default_static_url'] = make_default_static_url
     env.filters['make_static_html'] = make_static_html
-    return msg_web
+    return flask_app
 
 msg_web = create_app()
 

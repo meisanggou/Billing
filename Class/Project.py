@@ -28,7 +28,7 @@ class ProjectManager:
 
     def new_project_info(self, user_name, project_name, project_desc):
         project_no = uuid1().hex
-        result = self.insert_user_project(user_name, project_no, 0)
+        result = self.insert_user_project(project_no, user_name, 0)
         if result <= 0:
             return False, "用户仅允许参加一个项目"
         create_time = int(time())
