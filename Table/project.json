@@ -5,7 +5,7 @@
                 "pri_key": true,
                 "col_comment": "项目编号 自增",
                 "col_name": "project_no",
-                "col_type": "char(30)"
+                "col_type": "char(32)"
             },
             {
                 "col_comment": "项目名称",
@@ -38,7 +38,7 @@
               {
                   "col_comment": "项目编号",
                   "col_name": "project_no",
-                  "col_type": "varchar(30)"
+                  "col_type": "varchar(32)"
               },
               {
                   "col_comment": "项目角色",

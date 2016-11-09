@@ -58,7 +58,7 @@ class DB(object):
             return self.execute(sql_query=sql_query, freq=freq+1)
         return handled_item
 
-    def execute_select(self, table_name, where_value={"1": 1}, cols=None):
+    def execute_select(self, table_name, where_value={"1": 1}, cols=None, package=False):
         args = dict(where_value).values()
         if len(args) <= 0:
             return 0
@@ -68,7 +68,17 @@ class DB(object):
             select_item = ",".join(tuple(cols))
         sql_query = "SELECT %s FROM %s WHERE %s=%%s;" \
                     % (select_item, table_name, "=%s AND ".join(dict(where_value).keys()))
-        return self.execute(sql_query, args)
+        exec_result = self.execute(sql_query, args)
+        if cols is not None and package is True:
+            db_items = self.fetchall()
+            select_items = []
+            for db_item in db_items:
+                r_item = dict()
+                for i in range(len(cols)):
+                    r_item[cols[i]] = db_item[i]
+                select_items.append(r_item)
+            return select_items
+        return exec_result
 
     def execute_insert(self, table_name, kwargs, ignore=False):
         keys = dict(kwargs).keys()
