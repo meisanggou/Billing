@@ -3,7 +3,7 @@
 
 from datetime import datetime
 from functools import wraps
-from flask import session, g, make_response, Blueprint, jsonify, request
+from flask import session, g, redirect, Blueprint, jsonify, request
 from flask_login import LoginManager, UserMixin, login_required
 from apscheduler.schedulers.background import BackgroundScheduler
 import apscheduler.events
@@ -75,7 +75,6 @@ def load_user(user_name):
     user.role = session["role"]
     return user
 
-
 login_manager.login_view = "dms_view.index"
 
 
@@ -103,3 +102,15 @@ def create_blue(blue_name, url_prefix="/", auth_required=True):
     if blue_name not in blues:
         blues[blue_name] = [add_blue, url_prefix]
     return add_blue
+
+
+def project_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "project_no" not in g or g.project_no is None:
+            if g.accept_json is True:
+                return jsonify({"status": False, "data": "未參加任何项目"})
+            else:
+                return redirect(g.portal_url)
+        return f(*args, **kwargs)
+    return decorated_function
