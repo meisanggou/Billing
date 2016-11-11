@@ -40,7 +40,7 @@ class ProjectManager:
     def update_project_info(self, project_no, project_name, project_desc):
         self.db.execute_update(self.t_project, update_value={"project_name": project_name, "project_desc": project_desc},
                                where_value={"project_no": project_no})
-        return True
+        return True, "success"
 
     def get_project(self, user_name):
         cols = ["project_no", "project_role", "join_time"]

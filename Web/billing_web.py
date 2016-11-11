@@ -2,7 +2,7 @@
 # coding: utf-8
 import sys
 sys.path.append("..")
-from flask import Flask
+from flask import Flask, make_response
 from flask_login import current_user
 from Web import *
 
@@ -30,6 +30,9 @@ def create_app():
         if current_user.is_authenticated:
             g.user_role = current_user.role
             g.user_name = current_user.user_name
+            g.project_no = current_user.project_no
+            g.project_name = current_user.project_name
+            g.project_role = current_user.project_role
             if g.user_name in user_blacklist:
                 message =u"不好意思，您的帐号存在异常，可能访问本系统出现不稳定的想象，现在就是不稳定中。本系统不是很智能，所以不知道啥时候会稳定，也许一分钟，也许一天，也许。。。"
                 if "X-Requested-With" in request.headers:

@@ -11,7 +11,11 @@ function new_project(){
 }
 
 function update_project(){
-    new_project();
+    var request_url = location.href;
+    var project_name = $("#project_name").val();
+    var project_desc = $("#project_desc").val();
+    var request_data = {"project_name": project_name, "project_desc": project_desc};
+    my_async_request(request_url, "PUT", request_data, null);
 }
 
 function init_project(data){
