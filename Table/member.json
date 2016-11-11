@@ -1,0 +1,37 @@
+[
+    {
+        "table_cols": [
+            {
+                "pri_key": true,
+                "col_comment": "会员编号",
+                "col_name": "member_no",
+                "col_type": "char(32)"
+            },
+            {
+                "col_comment": "会员卡号",
+                "col_name": "card_no",
+                "col_type": "varchar(30)",
+                "allow_null": true
+            },
+            {
+                "col_comment": "会员姓名",
+                "col_name": "member_name",
+                "col_type": "varchar(20)",
+                "allow_null": true
+            },
+            {
+                "col_comment": "会员手机号",
+                "col_name": "member_tel",
+                "col_type": "varchar(11)",
+                "allow_null": true
+            },
+            {
+                "col_comment": "创建时间",
+                "col_name": "join_time",
+                "col_type": "int(11)"
+            }
+        ],
+        "table_comment": "会员信息",
+        "table_name": "member_info"
+    }
+]
