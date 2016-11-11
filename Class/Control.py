@@ -9,7 +9,6 @@ from Tools.Mysql_db import DB
 from Tools.MyEmail import MyEmailManager
 from User import UserManager
 from Dev import DevManager
-from APIHelp import HelpManager
 from APIStatus import StatusManager
 from Log import LogManager
 from IP import IPManager
@@ -29,7 +28,6 @@ class ControlManager:
         self.user_role_desc = self.user.role_desc
         self.role_value = self.user.role_value
         self.dev = DevManager()
-        self.api_help = HelpManager()
         self.api_status = StatusManager()
         self.ip = IPManager()
         self.manger_email = ["budechao@ict.ac.cn", "biozy@ict.ac.cn"]
@@ -143,170 +141,6 @@ class ControlManager:
             content += "%s : %s<br>" % (attribute_ch[index], info[attribute[index]])
         for email in self.manger_email:
             my_email.send_mail_thread(email, sub, content)
-
-    # 针对API HELP的应用
-    def get_part_api(self, user_name, role):
-        if role & self.role_value["api_look"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.get_part_api(user_name=user_name)
-
-    def get_module_list(self, role):
-        if role & self.role_value["api_look"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.get_module_list()
-
-    def get_test_env(self, role, env_no_list=None):
-        if role & self.role_value["api_look"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.get_test_env(env_no_list)
-
-    def new_api_module(self, role, module_name, module_prefix, module_desc, module_part, module_env):
-        if role & self.role_value["api_module_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.new_api_module(module_name, module_prefix, module_desc, module_part, module_env)
-
-    def update_api_module(self, role, module_no, module_name, module_prefix, module_desc, module_part, module_env):
-        if role & self.role_value["api_module_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.update_api_module(module_no, module_name, module_prefix, module_desc, module_part, module_env)
-
-    def delete_api_module(self, role, module_no):
-        if role & self.role_value["api_module_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.del_api_module(module_no)
-
-    def new_api_info(self, module_no, title, path, method, desc, user_name, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        result, data = self.api_help.new_api_info(module_no, title, path, method, desc)
-        if result is True:
-            self.api_help.new_api_care(data["api_no"], user_name, 0)
-            api_no = data["api_no"]
-            t = Thread(target=self._send_module_message, args=(user_name, module_no, api_no, title, method, desc))
-            t.start()
-        return result, data
-
-    def update_api_info(self, role, api_no, module_no, title, path, method, desc):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        result, data = self.api_help.update_api_info(api_no, module_no, title, path, method, desc)
-        return result, data
-
-    def get_api_info(self, api_no, role):
-        if role & self.role_value["api_look"] <= 0:
-            return False, u"您没有权限"
-        result, api_info = self.api_help.get_api_info(api_no)
-        if result is True:
-            if role & self.role_value["api_new"] <= 0 and api_info["basic_info"]["stage"] == u'新建':
-                return False, u"您没有权限"
-        return result, api_info
-
-    def add_header_param(self, user_name, api_no, param, necessary, desc, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        result, info = self.api_help.new_api_header(api_no, {param: {"necessary": necessary, "desc": desc}})
-        if result is True:
-            self._send_api_update_message_thread(user_name, api_no, param)
-        return result, info
-
-    def add_predefine_header(self, user_name, api_no, param, param_type, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        result, info = self.api_help.new_predefine_param(api_no, param, param_type)
-        if result is True:
-            self._send_api_update_message_thread(user_name, api_no, param)
-        return result, info
-
-    def add_body_param(self, user_name, api_no, param, necessary, type, desc, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        result, info = self.api_help.new_api_body(api_no, {param: {"necessary": necessary, "type": type, "desc": desc}})
-        if result is True:
-            self._send_api_update_message_thread(user_name, api_no, param)
-        return result, info
-
-    def add_input_example(self, user_name, api_no, example, desc, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        result, info = self.api_help.new_api_input(api_no, [{"desc": desc, "example": example}])
-        if result is True:
-            self._send_api_update_message_thread(user_name, api_no, u"请求示例")
-        return result, info
-
-    def add_output_example(self, user_name, api_no, example, desc, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        result, info = self.api_help.new_api_output(api_no, [{"desc": desc, "example": example}])
-        if result is True:
-            self._send_api_update_message_thread(user_name, api_no, u"返回示例")
-        return result, info
-
-    def add_care(self, api_no, user_name, role):
-        if role & 8 <= 0:
-            return False, u"您没有权限"
-        return self.api_help.new_api_care(api_no, user_name)
-
-    def add_module_care(self, user_name, role, module_no):
-        if role & 8 <= 0:
-            return False, u"您没有权限"
-        return self.api_help.new_module_care(module_no, user_name)
-
-    def get_api_list(self, module_no, role):
-        if role & self.role_value["api_look"] <= 0:
-            return False, u"您没有权限"
-        result, api_list = self.api_help.get_api_list(module_no)
-        if result is True and role & self.role_value["api_new"] <= 0:
-            len_api = len(api_list["api_list"])
-            for i in range(len_api - 1, -1, -1):
-                api_item = api_list["api_list"][i]
-                if api_item["stage"] == u'新建':
-                    api_list["api_list"].remove(api_item)
-        return result, api_list
-
-    def delete_header(self, role, api_no, param):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.del_api_header(api_no, param)
-
-    def delete_predefine_param(self, role, api_no, param):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.del_predefine_param(api_no, param)
-
-    def delete_body(self, role, api_no, param):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.del_api_body(api_no=api_no, param=param)
-
-    def delete_input(self, input_no, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.del_api_input(input_no)
-
-    def delete_ouput(self, output_no, role):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_help.del_api_output(output_no)
-
-    def delete_care(self, api_no, user_name):
-        return self.api_help.del_api_care(api_no, user_name)
-
-    def delete_module_care(self, user_name, module_no):
-        return self.api_help.del_module_care(module_no, user_name)
-
-    def delete_api(self, api_no, user_name):
-        return self.api_help.del_api_info(api_no, user_name)
-
-    def set_api_status(self, user_name, role, api_no, stage):
-        if role & self.role_value["api_new"] <= 0:
-            return False, u"您没有权限"
-        if stage == 2:
-            # 必须至少一个返回示例
-            output_info = self.api_help.get_api_output(api_no)
-            if len(output_info) <= 0:
-                return False, u"请至少提交一个返回示例"
-        result, info = self.api_help.set_api_stage(api_no, stage)
-        return result, info
 
     # 针对API状态码的应用
     def get_fun_info(self, role):
