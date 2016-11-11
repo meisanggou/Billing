@@ -26,6 +26,18 @@
                 "allow_null": true
             },
             {
+                  "col_comment": "会员",
+                  "col_name": "member_tel",
+                  "col_type": "varchar(11)",
+                  "allow_null": true
+            },
+            {
+                "col_comment": "会员手机号",
+                "col_name": "member_tel",
+                "col_type": "varchar(11)",
+                "allow_null": true
+            },
+            {
                 "col_comment": "创建时间",
                 "col_name": "join_time",
                 "col_type": "int(11)"

@@ -8,7 +8,7 @@ from Web import create_blue, project_url_prefix as url_prefix, project_required
 from Web import control
 
 
-rt = RenderTemplate("Project", url_prefix=url_prefix)
+rt = RenderTemplate("project", url_prefix=url_prefix)
 project_view = create_blue("project_view", url_prefix=url_prefix)
 
 

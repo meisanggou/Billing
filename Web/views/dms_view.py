@@ -264,4 +264,4 @@ def authorize():
 @dms_view.route("/portal/", methods=["GET"])
 @login_required
 def select_portal():
-    return render_template("portal.html", dms_url_prefix=dms_url_prefix)
+    return render_template("base_v2.html", dms_url_prefix=dms_url_prefix)

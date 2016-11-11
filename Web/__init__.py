@@ -81,6 +81,7 @@ login_manager.login_view = "dms_view.index"
 dms_url_prefix = ""
 
 project_url_prefix = "/project"
+member_url_prefix = "/member"
 
 
 blues = {}

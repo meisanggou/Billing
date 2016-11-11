@@ -43,7 +43,7 @@ $(function(){
         }
     }
     $("#div_main_menu").append('<a href="/project/">' + '项目管理' + '</a>');
-    $("#div_main_menu").append('<a href="/memeber/">' + '会员管理' + '</a>');
+    $("#div_main_menu").append('<a href="/member/">' + '会员管理' + '</a>');
     $("#div_main_menu").append('<a href="' + $("#password_url_prefix").val() + '/">' + '修改密码' + '</a>');
     $("#div_main_menu").append('<a href="' + $("#password_url_prefix").val() + '/">' + '修改密码' + '</a>');
     $("#div_main_menu").append('<a href="' + $("#exit_url_prefix").val() + '/">' + '退出' + '</a>');
