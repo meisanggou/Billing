@@ -50,7 +50,7 @@ a:hover {
 }
 
 #topnav a i {
-    background-image: url("/static/t_images/menu/glyphicons-halflings-white.png");
+    background-image: url("/static/t_images/icon/glyphicons-halflings-white.png");
     opacity: .8
 }
 
@@ -105,7 +105,7 @@ a:hover {
 #user-nav > ul > li > a > i,
 #sidebar li a i {
     margin-top: 1px;
-    background-image: url('/static/t_images/menu/glyphicons-halflings-white.png');
+    background-image: url('/static/t_images/icon/glyphicons-halflings-white.png');
     vertical-align: top;
     opacity: .8
 }
@@ -2100,7 +2100,7 @@ table.font-small tr td a:hover {
 
     #sidebar > a > i {
         margin-right: 10px;
-        background-image: url('/static/t_images/menu/glyphicons-halflings-white.png')
+        background-image: url('/static/t_images/icon/glyphicons-halflings-white.png')
     }
 
     #sidebar > ul {
@@ -2600,7 +2600,7 @@ table.font-small tr td a:hover {
     #user-nav > ul > li > a > i,
     #sidebar li a i {
         margin-top: 1px;
-        background-image: url('/static/t_images/menu/glyphicons-halflings-white.png');
+        background-image: url('/static/t_images/icon/glyphicons-halflings-white.png');
         vertical-align: top;
         opacity: .8
     }

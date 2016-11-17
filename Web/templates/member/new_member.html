@@ -1,5 +1,16 @@
 {% extends "base_v2.html" %}
 
+{% block css_content %}
+    {{ 't_css/datepicker.css' | make_static_html | safe }}
+{% endblock %}
+
+{% block js_content %}
+    {{ 't_js/Common/moment.min.js' | make_static_html | safe }}
+    {{ 't_js/Common/daterangepicker.js' | make_static_html | safe }}
+    {{ 't_js/Common/data_validate.js' | make_static_html | safe }}
+    {{ 't_js/member/new_member.js' | make_static_html | safe }}
+{% endblock %}
+
 {% block content %}
     <div id="content-header">
         <ul class="nav nav-tabs">
@@ -41,13 +52,13 @@
                                 </select>
                             </div>
                         </div>
-{#                        <div class="control-group">#}
-{#                            <label class="control-label">生　　日</label>#}
-{##}
-{#                            <div class="controls">#}
-{#                                <input type="text" class="span8 forminput date" name="birthday" id="birthday" value=""/>#}
-{#                            </div>#}
-{#                        </div>#}
+                        <div class="control-group">
+                            <label class="control-label">生　　日</label>
+
+                            <div class="controls">
+                                <input readonly="" class="span8 forminput date active" name="opencardday" id="opencardday" value="2016-11-17" type="text">
+                            </div>
+                        </div>
                         <div class="control-group">
                             <label class="control-label">消费密码</label>
 
@@ -65,12 +76,11 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div id="BTsave">
                 <button class="btn btn-large btn-primary submitbtn span3" id="btn_save">保存数据</button>
             </div>
         </div>
     </div>
     <!--整体页面结束，以下是弹出窗口-->
 </div>
-{{ 't_js/member/new_member.js' | make_static_html | safe }}
 {% endblock %}

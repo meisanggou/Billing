@@ -26,8 +26,8 @@
                 "allow_null": true
             },
             {
-                  "col_comment": "会员",
-                  "col_name": "member_tel",
+                  "col_comment": "会员消费密码",
+                  "col_name": "member_pwd",
                   "col_type": "varchar(11)",
                   "allow_null": true
             },
