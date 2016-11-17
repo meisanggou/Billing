@@ -2,8 +2,6 @@
  * Created by msg on 11/17/16.
  */
 function show_msg(info,type,t){
-    //alert(info);
-
     var winObj = null;
     var timeout = 3000;
     if(t || t===0){
