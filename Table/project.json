@@ -74,6 +74,11 @@
                     "col_type": "char(32)"
                 },
                 {
+                    "col_comment": "添加会员的账户",
+                    "col_name": "add_user",
+                    "col_type": "varchar(20)"
+                },
+                {
                     "col_comment": "添加时间",
                     "col_name": "add_time",
                     "col_type": "int(11)"
