@@ -32,10 +32,39 @@
                   "allow_null": true
             },
             {
-                "col_comment": "会员手机号",
-                "col_name": "member_tel",
-                "col_type": "varchar(11)",
-                "allow_null": true
+                "col_comment": "会员充值总金额",
+                "col_name": "member_expenses",
+                "col_type": "int(11)",
+                "default": 0
+            },
+            {
+                "col_comment": "会员赠送总金额",
+                "col_name": "sys_expenses",
+                "col_type": "int(11)",
+                "default": 0
+            },
+            {
+                "col_comment": "会员剩余金额",
+                "col_name": "member_balance",
+                "col_type": "int(11)",
+                "default": 0
+            },
+            {
+                "col_comment": "会员剩余赠送金额",
+                "col_name": "sys_balance",
+                "col_type": "int(11)",
+                "default": 0
+            },
+            {
+                "col_comment": "会员积分",
+                "col_name": "member_score",
+                "col_type": "int(11)",
+                "default": 0
+            },
+            {
+                "col_comment": "更新时间",
+                "col_name": "update_time",
+                "col_type": "int(11)"
             },
             {
                 "col_comment": "创建时间",
