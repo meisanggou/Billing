@@ -1,4 +1,7 @@
 /**
  * Created by msg on 11/11/16.
  */
-$("#winAlert").show();
+
+$(function(){
+    $("#li_member").addClass("active open");
+});

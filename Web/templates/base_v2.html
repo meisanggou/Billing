@@ -13,6 +13,7 @@
     <!--自定义的页面样式 -->
     {{ 't_js/jquery.min.js' | make_static_html | safe }}
     {{ 't_js/Common/my_requests.js' | make_static_html | safe }}
+    {{ 't_js/Common/msg_box.js' | make_static_html | safe }}
     {{ 't_js/Common/handler_data.js' | make_static_html | safe }}
     <!-- Sweet Alert 弹窗 -->
     {{ 't_css/sweetalert.css' | make_static_html | safe }}
@@ -29,7 +30,7 @@
 <body>
 <div id="header">
     <h1><img src="/static/t_images/project_logo/{{ g.project_no }}.png" width="170" height="60"
-             onerror="this.src='http://e.gysjjt.com/images/yingmei/0/logo.png'"/></h1>
+             onerror="this.src='/static/t_images/project_logo/default_logo.png'"/></h1>
 </div>
 <div id="topnav">
     <div class="navbar navbar-inverse">
@@ -70,15 +71,14 @@
     <ul>
         <li class="cashier"><a href="/portal/"><i class="icon icon-tasks"></i> <span>收银</span></a></li>
 
-        <li class="cashier"><a href="/member/"><i class="icon icon-user"></i> <span>开卡</span></a></li>
+        <li class="cashier" id="li_member"><a href="/member/"><i class="icon icon-user"></i> <span>开卡</span></a></li>
 
     </ul>
-
 </div>
 
 <div id="winAlert" class="gysjjt-info alert alert-error fade hide">
-    <a id="BTclose" onclick="" href="javascript:return false;" type="button">关闭</a>
-    <p>会员类型不能为空!</p>
+    <a id="btn_close_msg_box" href="javascript:return false;" type="button">关闭</a>
+    <p></p>
 </div>
 
 <div id="content">
