@@ -16,7 +16,7 @@ function show_msg(info,type,t){
     if(timeout>0){
         setTimeout(function(){
             winObj.removeClass("in");winObj.addClass("hide");
-        }, timeout );
+        }, timeout);
     }
 }
 function msgboxClose(){

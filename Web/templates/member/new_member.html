@@ -7,124 +7,70 @@
         </ul>
     </div>
     <div id="formdata" class="container-fluid">
-        <form class="form-horizontal" method="get" action="#" autocomplete="off">
-            <input type="hidden" value="0" name="curid" id="curid">
-
-            <div id="baseinfo">
-                <div class="row-fluid" style="margin-top:0">
-                    <div class="span12">
-                        <div class="span6">
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span> 会员卡号</label>
-
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" id="cardno" name="cardno" value=""/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span> 会员类型</label>
-
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" id="cardnumber" name="cardnumber"
-                                           cardtypeid="" placeholder="" value=""/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span> 折　　扣</label>
-
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" placeholder="折扣" id="discount"
-                                           name="discount" value=""/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span> 流水单号</label>
-
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" value="00000013904" id="orderno"
-                                           name="orderno"/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span> 办卡时间</label>
-
-                                <div class="controls">
-                                    <input type="text" readonly class="span8 forminput date" name="opencardday"
-                                           id="opencardday" value="2016-11-11"/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span> 姓　　名</label>
-
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" name="truename" id="truename" value=""/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span>手　　机</label>
-
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" name="phone" id="phone" value=""/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><span class="form-inline text-Cash">*</span> 性　　别</label>
-
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" placeholder="0代表男性，1代表女性" name="sex"
-                                           id="sex" value=""/>
-                                </div>
+        <input type="hidden" value="0" name="curid" id="curid">
+        <div id="div_member_info" class="form-horizontal">
+            <div class="row-fluid" style="margin-top:0">
+                <div class="span12">
+                    <div class="span6">
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>会员卡号</label>
+                            <div class="controls">
+                                <input type="text" class="span8 forminput" data-validate="^\w{1,30}$" data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字"/>
                             </div>
                         </div>
-                        <div class="span6">
-                            <div class="control-group">
-                                <label class="control-label">生　　日</label>
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>姓　　名</label>
 
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput date" name="birthday" id="birthday"
-                                           value=""/>
-                                </div>
+                            <div class="controls">
+                                <input type="text" class="span8 forminput" data-validate="^[\u4e00-\u9fa5\w]{1,20}$" required data-validate-msg="姓名;姓名仅允许中文英文数字且不能超过20个字"/>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label">消费密码</label>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>手　　机</label>
 
-                                <div class="controls">
-                                    <input type="text" class="span8 forminput" name="cardpass" id="cardpass" value=""/>
-                                </div>
+                            <div class="controls">
+                                <input type="text" class="span8 forminput" data-validate="^1\d{10}$" required data-validate-msg="手机号;请输入正确的手机号"/>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label">备　　注</label>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>性　　别</label>
+                            <div class="controls">
+                                <select type="text" class="span8 forminput"  >
+                                    <option>男</option>
+                                    <option>女</option>
+                                </select>
+                            </div>
+                        </div>
+{#                        <div class="control-group">#}
+{#                            <label class="control-label">生　　日</label>#}
+{##}
+{#                            <div class="controls">#}
+{#                                <input type="text" class="span8 forminput date" name="birthday" id="birthday" value=""/>#}
+{#                            </div>#}
+{#                        </div>#}
+                        <div class="control-group">
+                            <label class="control-label">消费密码</label>
 
-                                <div class="controls">
-                                    <textarea class="span8 forminput" name="remark" id="remark"></textarea>
-                                </div>
+                            <div class="controls">
+                                <input type="text" class="span8 forminput" data-validate="^\d{6}$" required data-validate-msg="消费密码;请输入6位消费密码"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">备　　注</label>
+
+                            <div class="controls">
+                                <textarea class="span8 forminput" data-validate="^[\s\S]{0,100}$" required data-validate-msg="备注;备注内容太多了"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="BTsave">
-                    <button class="btn btn-large btn-primary submitbtn span3" href="#add-4" data-toggle="modal">保存数据
-                    </button>
-                </div>
             </div>
-        </form>
+            <div>
+                <button class="btn btn-large btn-primary submitbtn span3" id="btn_save">保存数据</button>
+            </div>
+        </div>
     </div>
     <!--整体页面结束，以下是弹出窗口-->
-
-    <!--开卡成功提示-->
-    <div id="add-4" class="modal hide fade modal-mini">
-        <div class="modal-header">
-            <button data-dismiss="modal" class="close" type="button">×</button>
-            <h3><i class="icon icon-info-sign"></i>　提示！</h3>
-        </div>
-        <div class="modal-body">
-            <p style="text-align:center"></p>
-        </div>
-        <div class="modal-footer">
-            <a data-dismiss="modal" class="btn btn-primary" href="#">3秒跳转到收银</a>
-            <a id="memberedit" class="btn btn-primary" href="http://e.gysjjt.com/yingmei.php/memberdetail">继续填写档案</a>
-        </div>
-    </div>
 </div>
 {{ 't_js/member/new_member.js' | make_static_html | safe }}
 {% endblock %}
