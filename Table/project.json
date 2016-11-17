@@ -19,6 +19,12 @@
                 "allow_null": true
             },
             {
+                "col_comment": "会员数",
+                "col_name": "member_count",
+                "col_type": "int(11)",
+                "default": 0
+            },
+            {
                 "col_comment": "创建时间",
                 "col_name": "create_time",
                 "col_type": "int(11)"
@@ -53,5 +59,27 @@
           ],
           "table_comment": "项目信息",
           "table_name": "user_project"
-      }
+      },
+      {
+            "table_cols": [
+                {
+                    "pri_key": true,
+                    "col_comment": "项目编号",
+                    "col_name": "project_no",
+                    "col_type": "char(32)"
+                },
+                {
+                    "col_comment": "会员编号",
+                    "col_name": "member_no",
+                    "col_type": "char(32)"
+                },
+                {
+                    "col_comment": "添加时间",
+                    "col_name": "add_time",
+                    "col_type": "int(11)"
+                }
+            ],
+            "table_comment": "项目下会员",
+            "table_name": "project_members"
+        }
 ]
