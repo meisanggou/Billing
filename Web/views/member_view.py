@@ -14,7 +14,9 @@ project_view = create_blue("project_view", url_prefix=url_prefix)
 
 @project_view.route("/", methods=["GET"])
 def project_info_func():
-    if g.accept_json is True:
-        p_info = control.get_project(g.user_name)
-        return jsonify({"status": True, "data": p_info})
     return rt.render("new_member.html")
+
+
+@project_view.route("/list/", methods=["GET"])
+def list_member_func():
+    return rt.render("list_member.html")

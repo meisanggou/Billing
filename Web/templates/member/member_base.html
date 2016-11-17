@@ -1,0 +1,12 @@
+{% extends "base_v2.html" %}
+
+{% block content %}
+    <div id="content-header">
+        <ul class="nav nav-tabs">
+            <li id="li_add_member"><a href="/member/">基本信息</a></li>
+            <li id="li_list_member"><a href="/member/list/">会员管理</a></li>
+        </ul>
+    </div>
+    {% block member_content %}
+    {% endblock %}
+{% endblock %}
