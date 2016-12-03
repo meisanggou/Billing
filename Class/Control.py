@@ -97,6 +97,9 @@ class ControlManager:
     def update_project_grant(self, project_role, project_no, grant_info):
         return self.pro_man.update_project_info(project_no, grant_info["user_name"], grant_info["project_role"])
 
+    def new_project_member(self, user_name, project_no, member_no):
+        return self.pro_man.insert_project_member(project_no, member_no, user_name)
+
     # 会员相关
     def new_member(self, *args, **kwargs):
         return self.member_man.insert_member_info(*args, **kwargs)

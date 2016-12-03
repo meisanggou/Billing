@@ -20,8 +20,11 @@ def page_new_member_func():
 @member_view.route("/", methods=["POST"])
 def new_member_func():
     request_data = request.json
-    print(request_data)
     result, info = control.new_member(**request_data)
+    if result is True:
+        member_no = info["member_no"]
+        print(member_no)
+        result, info = control.new_project_member(g.user_name, g.project_no, member_no)
     return jsonify({"status": result, "data": info})
 
 

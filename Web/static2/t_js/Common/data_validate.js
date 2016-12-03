@@ -20,6 +20,9 @@ function data_validate(div_id){
                 input_item.select();
                 validate_result = 1;
             }
+            else{
+                data_value = null;
+            }
         }
         else if (data_rule != undefined) {
             var r = new RegExp(data_rule);

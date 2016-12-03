@@ -69,6 +69,7 @@
                     "col_type": "char(32)"
                 },
                 {
+                    "pri_key": true,
                     "col_comment": "会员编号",
                     "col_name": "member_no",
                     "col_type": "char(32)"

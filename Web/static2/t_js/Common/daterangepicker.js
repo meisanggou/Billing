@@ -1088,6 +1088,7 @@ function Bind_Date(obj, opens, isone){
 		});
 	}else{
 		//单控件
+        console.info(moment());
 		obj.daterangepicker({
 			startDate: moment(),
 			singleDatePicker: true,

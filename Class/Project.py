@@ -61,6 +61,11 @@ class ProjectManager:
                                          package=True)
         return True, members
 
+    def insert_project_member(self, project_no, member_no, add_user):
+        kwargs = dict(project_no=project_no, member_no=member_no, add_user=add_user, add_time=int(time()))
+        self.db.execute_insert("project_members", kwargs=kwargs)
+        return True, "添加成功"
+
 
 if __name__ == "__main__":
     p_man = ProjectManager()
