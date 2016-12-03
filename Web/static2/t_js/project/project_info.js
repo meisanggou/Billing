@@ -33,6 +33,7 @@ function init_project(data){
 
 
 $(function(){
+    $("#li_project_info").addClass("active open");
     var request_url = location.href;
     my_async_request(request_url, "GET", null, init_project)
 });

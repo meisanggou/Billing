@@ -1,0 +1,13 @@
+{% extends "base_v2.html" %}
+
+{% block content %}
+    <div id="content-header">
+        <ul class="nav nav-tabs">
+            <li id="li_project_info"><a href="/project/">项目信息</a></li>
+            <li id="li_list_member"><a href="/project/">项目成员</a></li>
+            <li id="li__member"><a href="/project/">增加成员</a></li>
+        </ul>
+    </div>
+    {% block project_content %}
+    {% endblock %}
+{% endblock %}
