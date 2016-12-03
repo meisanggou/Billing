@@ -27,11 +27,6 @@ class ControlManager:
         self.user = UserManager()
         self.user_role_desc = self.user.role_desc
         self.role_value = self.user.role_value
-        self.dev = DevManager()
-        self.api_status = StatusManager()
-        self.ip = IPManager()
-        self.manger_email = ["budechao@ict.ac.cn", "biozy@ict.ac.cn"]
-        self.jy_log = LogManager()
         self.pro_man = ProjectManager()
 
     def check_user_name_exist(self, user_name, role, check_user_name):
@@ -84,117 +79,6 @@ class ControlManager:
 
     def get_role_user(self, role):
         return self.user.get_role_user(role)
-
-
-    # 针对开发者的应用
-    def show_operate_auth(self, role):
-        if role & self.role_value["right_new"] < self.role_value["right_new"]:
-            return False, u"您没有权限"
-        return self.dev.get_operate_auth()
-
-    def list_data_table(self, role):
-        if role & self.role_value["table_look"] <= 0:
-            return False, u"您没有权限"
-        return self.dev.list_table()
-
-    def get_table_info(self, table_name, role):
-        if role & self.role_value["table_look"] <= 0:
-            return False, u"您没有权限"
-        return self.dev.get_table_info(table_name)
-
-    def get_right_module(self, role):
-        if role & self.role_value["right_look"] < self.role_value["right_look"]:
-            return False, u"您没有权限"
-        result, info = self.dev.get_right_module()
-        return result, info
-
-    def get_right_module_role(self, role, module_no):
-        if role & self.role_value["right_look"] < self.role_value["right_look"]:
-            return False, u"您没有权限"
-        result, info = self.dev.get_right_module_role(module_no)
-        return result, info
-
-    def get_right_action_role(self, role, module_no):
-        if role & self.role_value["right_look"] < self.role_value["right_look"]:
-            return False, u"您没有权限"
-        result, info = self.dev.get_right_action_role(module_no)
-        return result, info
-
-    def new_right_action(self, user_name, role, module_no, action_desc, min_role):
-        if role & self.role_value["right_new"] < self.role_value["right_new"]:
-            return False, u"您没有权限"
-        result, info = self.dev.new_right_action(module_no, action_desc, min_role, user_name)
-        return result, info
-
-    def delete_right_action(self, user_name, role, action_no):
-        if role & self.role_value["right_new"] < self.role_value["right_new"]:
-            return False, u"您没有权限"
-        result, info = self.dev.del_right_action(user_name, action_no)
-        return result, info
-
-    def send_email(self, sub, data_no, info, attribute, attribute_ch):
-        print("strart send email to %s" % self.manger_email)
-        content = sub + "<br>"
-        content += u"数据编号 : %s<br>" % data_no
-        att_len = len(attribute)
-        for index in range(att_len):
-            content += "%s : %s<br>" % (attribute_ch[index], info[attribute[index]])
-        for email in self.manger_email:
-            my_email.send_mail_thread(email, sub, content)
-
-    # 针对API状态码的应用
-    def get_fun_info(self, role):
-        if role & self.role_value["status_code_look"] <= 0:
-            return False, u"您没有权限"
-        return self.api_status.get_function_info()
-
-    def get_status(self, role):
-        if role & self.role_value["status_code_look"] <= 0:
-            return False, u"您没有权限"
-        return self.api_status.get_status_code()
-
-    def get_error_type(self, role):
-        if role & self.role_value["status_code_look"] <= 0:
-            return False, u"您没有权限"
-        return self.api_status.get_error_type()
-
-    def new_service_module(self, user_name, role, service_title, service_desc):
-        if role & self.role_value["status_code_module"] <= 0:
-            return False, u"您没有权限"
-        result, info = self.api_status.insert_service_module(service_title, service_desc)
-        if result is False:
-            return result, info
-        service_id = info["service_id"]
-        r, data = self.api_status.insert_function_module(service_id, u"公共功能模块", u"本服务模块所有功能模块可公共使用的错误状态码")
-        if r is True:
-            function_id = data["function_id"]
-            error_info = [{"type_id": 0, "error_desc": u"访问系统正常，待用"},
-                          {"type_id": 0, "error_desc": u"访问系统正常，将返回数据"},
-                          {"type_id": 0, "error_desc": u"访问系统正常，仅返回成功信息"},
-                          {"type_id": 0, "error_desc": u"访问系统正常，返回警告信息"},
-                          {"type_id": 99, "error_desc": u"未经处理的异常，模块统一处理返回内部错误"}]
-            r, data = self.api_status.new_mul_status_code(int(service_id), int(function_id), error_info, user_name)
-        return result, info
-
-    def new_function_module(self, user_name, role, service_id, function_title, function_desc):
-        if role & self.role_value["status_code_module"] <= 0:
-            return False, u"您没有权限"
-        return self.api_status.insert_function_module(service_id, function_title, function_desc)
-
-    def new_api_status(self, user_name, role, service_id, fun_id, type_id, error_id, error_desc):
-        if role & self.role_value["status_code_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_status.new_status_code(service_id, fun_id, type_id, error_id, error_desc, user_name)
-
-    def new_mul_api_status(self, user_name, role, service_id, fun_id, error_info):
-        if role & self.role_value["status_code_new"] <= 0:
-            return False, u"您没有权限"
-        return self.api_status.new_mul_status_code(service_id, fun_id, error_info, user_name)
-
-    def delete_api_status(self, user_name, role, status_code):
-        if role & self.role_value["status_code_del"] < self.role_value["status_code_del"]:
-            return False, u"您没有权限"
-        return self.api_status.del_status_code(status_code)
 
     # 针对项目的操作
     def get_project(self, user_name):
