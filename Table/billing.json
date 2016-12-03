@@ -1,16 +1,16 @@
 [
   {
-    "table_name": "billing_classification",
+    "table_name": "billing_item",
     "table_comment": "收费分类",
     "table_cols": [
       {
-        "col_name": "classification_no",
+        "col_name": "item_no",
         "col_type": "int(11)",
         "pri_key": true,
         "col_comment": "收费项目号"
       },
       {
-        "col_name": "classification_name",
+        "col_name": "item_name",
         "col_type": "varchar(30)",
         "col_comment": "扣费项目的名称"
       },
