@@ -8,10 +8,7 @@ sys.path.append("..")
 from Tools.Mysql_db import DB
 from Tools.MyEmail import MyEmailManager
 from User import UserManager
-from Dev import DevManager
-from APIStatus import StatusManager
-from Log import LogManager
-from IP import IPManager
+from Member import MemberManager
 from Project import ProjectManager
 
 __author__ = 'ZhouHeng'
@@ -28,6 +25,7 @@ class ControlManager:
         self.user_role_desc = self.user.role_desc
         self.role_value = self.user.role_value
         self.pro_man = ProjectManager()
+        self.member_man = MemberManager()
 
     def check_user_name_exist(self, user_name, role, check_user_name):
         if role & self.role_value["user_new"] <= 0:
@@ -93,8 +91,12 @@ class ControlManager:
     def update_project_info(self, project_role, project_no, project_name, project_desc):
         return self.pro_man.update_project_info(project_no, project_name, project_desc)
 
-    def new_project_member(self, project_role, project_no, member_info):
-        return self.pro_man.insert_user_project(project_no, member_info["user_name"], member_info["project_role"])
+    def new_project_grant(self, project_role, project_no, grant_info):
+        return self.pro_man.insert_user_project(project_no, grant_info["user_name"], grant_info["project_role"])
 
-    def update_project_member(self, project_role, project_no, member_info):
-        return self.pro_man.update_project_info(project_no, member_info["user_name"], member_info["project_role"])
+    def update_project_grant(self, project_role, project_no, grant_info):
+        return self.pro_man.update_project_info(project_no, grant_info["user_name"], grant_info["project_role"])
+
+    # 会员相关
+    def new_member(self, *args, **kwargs):
+        return self.member_man.insert_member_info(*args, **kwargs)
