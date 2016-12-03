@@ -14,4 +14,4 @@ billing_item_view = create_blue("billing_item_view", url_prefix=url_prefix)
 
 @billing_item_view.route("/", methods=["GET"])
 def add_billing_item_page_func():
-    return rt.render("item_base.html")
+    return rt.render("new_item.html")

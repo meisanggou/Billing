@@ -1,0 +1,8 @@
+{% extends "billingitem/item_base.html" %}
+
+{% block css_content %}
+{% endblock %}
+
+{% block js_content %}
+    {{ 't_js/item/new_item.js' | make_static_html | safe }}
+{% endblock %}
