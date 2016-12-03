@@ -63,7 +63,7 @@ def create_app():
     flask_app.session_cookie_name = session_cookie_name
     if cookie_domain != "":
         flask_app.config.update(SESSION_COOKIE_DOMAIN=cookie_domain)
-    flask_app.config.update(PERMANENT_SESSION_LIFETIME=600)
+    flask_app.config.update(PERMANENT_SESSION_LIFETIME=60000)
 
     api_files = os.listdir("./views")
     for api_file in api_files:

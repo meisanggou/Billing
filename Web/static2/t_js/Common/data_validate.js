@@ -4,37 +4,48 @@
 
 function data_validate(div_id){
     var data_div = $("#" + div_id);
-    var mul_input_el = data_div.find("input");
-    var input_len = mul_input_el.length;
+    var input_data = new Object();
+    var data_items = data_div.find("input,select,textarea");
+    console.info(data_items);
+    var input_len = data_items.length;
     for(var i=0;i<input_len;i++){
-        var input_item = $(mul_input_el[i]);
-        console.info(input_item);
-        var data_rule = input_item.attr("data-validate");
-        var data_rule_msg = input_item.attr("data-validate-msg");
-        if(data_rule_msg == undefined){
-            return [false, "系统错误"];
-        }
-        var mul_msg = data_rule_msg.split(";");
-        if(mul_msg.length < 2){
-            return [false, "系统调用错误"]
-        }
-        var data_tip_name = mul_msg[0];
+        var input_item = $(data_items[i]);
         var data_value = input_item.val();
+        var param_name = input_item.attr("name");
         var data_required = input_item.attr("required");
-        if(data_value == "") {
+        var data_rule = input_item.attr("data-validate");
+        var validate_result = 0;
+        if (data_value == "") {
             if (data_required != undefined) {
                 input_item.select();
-                return [false, "请输入" + data_tip_name]
+                validate_result = 1;
             }
         }
-        else{
-            console.info(data_rule);
+        else if (data_rule != undefined) {
             var r = new RegExp(data_rule);
-            if(!data_value.match(r)){
+            if (!data_value.match(r)) {
                 input_item.select();
+
+            }
+        }
+        if(validate_result != 0){
+            var data_rule_msg = input_item.attr("data-validate-msg");
+            var mul_msg = data_rule_msg.split(";");
+            if (data_rule_msg == undefined) {
+                    return [false, "系统错误"];
+            }
+            if (mul_msg.length < 2) {
+                return [false, "系统调用错误"]
+            }
+            var data_tip_name = mul_msg[0];
+            if(validate_result == 1){
+                return [false, "请输入" + data_tip_name]
+            }
+            else{
                 return [false, mul_msg[1]];
             }
         }
+        input_data[param_name] = data_value;
     }
-    return [true, "success"]
+    return [true, input_data]
 }

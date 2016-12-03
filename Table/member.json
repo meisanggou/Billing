@@ -20,46 +20,65 @@
                 "allow_null": true
             },
             {
+                "col_comment": "会员性别 0未知 1男 2女",
+                "col_name": "member_sex",
+                "col_type": "tinyint(4)",
+                "allow_null": true,
+                "default": 0
+            },
+            {
                 "col_comment": "会员手机号",
                 "col_name": "member_tel",
                 "col_type": "varchar(11)",
                 "allow_null": true
             },
             {
-                  "col_comment": "会员消费密码",
-                  "col_name": "member_pwd",
-                  "col_type": "varchar(11)",
-                  "allow_null": true
+                "col_comment": "会员 出生日期",
+                "col_name": "member_birth",
+                "col_type": "datetime",
+                "allow_null": true
+            },
+            {
+                "col_comment": "会员消费密码",
+                "col_name": "member_pwd",
+                "col_type": "varchar(11)",
+                "allow_null": true
+            },
+            {
+                "col_comment": "会员备注",
+                "col_name": "member_remark",
+                "col_type": "varchar(100)",
+                "allow_null": true
             },
             {
                 "col_comment": "会员充值总金额",
                 "col_name": "member_expenses",
                 "col_type": "int(11)",
-                "default": 0
+                "default_value": 0
             },
             {
                 "col_comment": "会员赠送总金额",
                 "col_name": "sys_expenses",
                 "col_type": "int(11)",
-                "default": 0
+                "default_value": 0
             },
             {
                 "col_comment": "会员剩余金额",
                 "col_name": "member_balance",
                 "col_type": "int(11)",
-                "default": 0
+                "default_value": 0
             },
             {
                 "col_comment": "会员剩余赠送金额",
                 "col_name": "sys_balance",
                 "col_type": "int(11)",
-                "default": 0
+                "default_value": 0
             },
             {
                 "col_comment": "会员积分",
                 "col_name": "member_score",
                 "col_type": "int(11)",
-                "default": 0
+                "default_value": 0
             },
             {
                 "col_comment": "更新时间",

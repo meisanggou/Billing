@@ -9,14 +9,22 @@ from Web import control
 
 
 rt = RenderTemplate("member", url_prefix=url_prefix)
-project_view = create_blue("project_view", url_prefix=url_prefix)
+member_view = create_blue("member_view", url_prefix=url_prefix)
 
 
-@project_view.route("/", methods=["GET"])
-def project_info_func():
+@member_view.route("/", methods=["GET"])
+def page_new_member_func():
     return rt.render("new_member.html")
 
 
-@project_view.route("/list/", methods=["GET"])
+@member_view.route("/", methods=["POST"])
+def new_member_func():
+    request_data = request.json
+    print(request_data)
+    result, info = control.new_member(**request_data)
+    return jsonify({"status": result, "data": info})
+
+
+@member_view.route("/list/", methods=["GET"])
 def list_member_func():
     return rt.render("list_member.html")

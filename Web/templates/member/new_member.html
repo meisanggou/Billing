@@ -21,29 +21,29 @@
                         <div class="control-group">
                             <label class="control-label"><span class="form-inline text-Cash">*</span>会员卡号</label>
                             <div class="controls">
-                                <input type="text" class="span8 forminput" data-validate="^\w{1,30}$" data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字"/>
+                                <input type="text" name="card_no" class="span8 forminput" data-validate="^\w{1,30}$" data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label"><span class="form-inline text-Cash">*</span>姓　　名</label>
 
                             <div class="controls">
-                                <input type="text" class="span8 forminput" data-validate="^[\u4e00-\u9fa5\w]{1,20}$" required data-validate-msg="姓名;姓名仅允许中文英文数字且不能超过20个字"/>
+                                <input type="text" name="member_name" class="span8 forminput" data-validate="^[\u4e00-\u9fa5\w]{1,20}$" required data-validate-msg="姓名;姓名仅允许中文英文数字且不能超过20个字"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label"><span class="form-inline text-Cash">*</span>手　　机</label>
 
                             <div class="controls">
-                                <input type="text" class="span8 forminput" data-validate="^1\d{10}$" required data-validate-msg="手机号;请输入正确的手机号"/>
+                                <input type="text" name="member_tel" class="span8 forminput" data-validate="^1\d{10}$" required data-validate-msg="手机号;请输入正确的手机号"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label"><span class="form-inline text-Cash">*</span>性　　别</label>
                             <div class="controls">
-                                <select type="text" class="span8 forminput"  >
-                                    <option>男</option>
-                                    <option>女</option>
+                                <select type="text" name="member_sex" class="span8 forminput"  >
+                                    <option value=0>男</option>
+                                    <option value=1>女</option>
                                 </select>
                             </div>
                         </div>
@@ -51,21 +51,21 @@
                             <label class="control-label">生　　日</label>
 
                             <div class="controls">
-                                <input readonly="" class="span8 forminput date active" name="opencardday" id="opencardday" value="2016-11-17" type="text">
+                                <input readonly="" class="span8 forminput date active" name="member_birth" id="opencardday" value="0000-00-00" type="text" data-validate="^\d{4}-\d{1,2}-\d{1,2}" data-validate-msg="出生日期;请输入正确的出生日期" />
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">消费密码</label>
 
                             <div class="controls">
-                                <input type="text" class="span8 forminput" data-validate="^\d{6}$" required data-validate-msg="消费密码;请输入6位消费密码"/>
+                                <input type="text" name="member_pwd" class="span8 forminput" data-validate="^\d{6}$" required data-validate-msg="消费密码;请输入6位消费密码"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">备　　注</label>
 
                             <div class="controls">
-                                <textarea class="span8 forminput" data-validate="^[\s\S]{0,100}$" required data-validate-msg="备注;备注内容太多了"></textarea>
+                                <textarea class="span8 forminput" name="member_remark" data-validate="^[\s\S]{0,100}$" required data-validate-msg="备注;备注内容太多了"></textarea>
                             </div>
                         </div>
                     </div>
