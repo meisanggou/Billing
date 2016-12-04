@@ -6,6 +6,7 @@
 
 {% block js_content %}
     {{ 't_js/item/new_item.js' | make_static_html | safe }}
+    {{ 't_js/Common/add_node.js' | make_static_html | safe }}
 {% endblock %}
 
 {% block item_content %}
@@ -37,8 +38,9 @@
                         <label class="control-label"><span class="form-inline text-Cash">*</span>主分类名称</label>
 
                         <div class="controls">
-                            <input type="text" id="project_name" class="span8 forminput" data-validate="^\w{1,30}$"
-                                   data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字"/>
+                            <select id="main_items_list" type="text" id="project_name" class="span8 forminput" data-validate="^\w{1,30}$"
+                                   data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字" >
+                                </select>
                         </div>
                     </div>
                     <div class="control-group">
@@ -46,7 +48,7 @@
 
                         <div class="controls">
                             <input type="text" id="project_name" class="span8 forminput" data-validate="^\w{1,30}$"
-                                   data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字"/>
+                                   data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字" />
                         </div>
                     </div>
                     <div class="control-group">

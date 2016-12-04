@@ -14,4 +14,14 @@ billing_item_view = create_blue("billing_item_view", url_prefix=url_prefix)
 
 @billing_item_view.route("/", methods=["GET"])
 def add_billing_item_page_func():
+    if g.accept_json is True:
+        result, items_info = control.get_billing_items(g.project_no)
+        return jsonify({"status": result, "data": items_info})
     return rt.render("new_item.html")
+
+
+@billing_item_view.route("/", methods=["POST"])
+def add_billing_item_func():
+    request_data = request.json
+    result, info = control.new_item(**request_data)
+    return jsonify({"status": result, "data": info})
