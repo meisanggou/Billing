@@ -10,6 +10,7 @@ from Tools.MyEmail import MyEmailManager
 from User import UserManager
 from Member import MemberManager
 from Project import ProjectManager
+from BillingItem import ItemManager
 
 __author__ = 'ZhouHeng'
 
@@ -26,6 +27,7 @@ class ControlManager:
         self.role_value = self.user.role_value
         self.pro_man = ProjectManager()
         self.member_man = MemberManager()
+        self.item_man = ItemManager()
 
     def check_user_name_exist(self, user_name, role, check_user_name):
         if role & self.role_value["user_new"] <= 0:
@@ -103,3 +105,11 @@ class ControlManager:
     # 会员相关
     def new_member(self, *args, **kwargs):
         return self.member_man.insert_member_info(*args, **kwargs)
+
+    # 收费分类 相关
+    def get_billing_items(self, project_no):
+        return self.item_man.select_item(project_no)
+
+    def new_item(self, *args, **kwargs):
+        return self.item_man.new_item(*args, **kwargs)
+
