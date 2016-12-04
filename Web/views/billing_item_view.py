@@ -23,5 +23,5 @@ def add_billing_item_page_func():
 @billing_item_view.route("/", methods=["POST"])
 def add_billing_item_func():
     request_data = request.json
-    result, info = control.new_item(**request_data)
+    result, info = control.new_item(project_no=g.project_no, **request_data)
     return jsonify({"status": result, "data": info})

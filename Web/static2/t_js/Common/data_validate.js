@@ -6,7 +6,6 @@ function data_validate(div_id){
     var data_div = $("#" + div_id);
     var input_data = new Object();
     var data_items = data_div.find("input,select,textarea");
-    console.info(data_items);
     var input_len = data_items.length;
     for(var i=0;i<input_len;i++){
         var input_item = $(data_items[i]);

@@ -7,26 +7,26 @@
 {% block js_content %}
     {{ 't_js/item/new_item.js' | make_static_html | safe }}
     {{ 't_js/Common/add_node.js' | make_static_html | safe }}
+    {{ 't_js/Common/data_validate.js' | make_static_html | safe }}
 {% endblock %}
 
 {% block item_content %}
-    <div class="container-fluid form-horizontal">
+    <div class="container-fluid form-horizontal" id="div_main_item">
         <div class="row-fluid" style="margin-top:0">
             <div class="span12">
                 <div class="span6">
                     <div class="control-group">
                         <label class="control-label"><span class="form-inline text-Cash">*</span>主分类名称</label>
-
                         <div class="controls">
-                            <input type="text" id="project_name" class="span8 forminput" data-validate="^\w{1,30}$"
-                                   data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字"/>
+                            <input type="text" name="item_name" class="span8 forminput" required data-validate="^[\u4e00-\u9fa5\w]{1,30}$"
+                                   data-validate-msg="主分类名称;主分类名称仅允许中文英文数字且不能超过30个字"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div id="BTsave">
-            <button class="btn btn-large btn-primary" id="btn_op_project">添加主分类</button>
+            <button class="btn btn-large btn-primary" id="btn_main_item">添加主分类</button>
         </div>
 
     </div>
@@ -44,10 +44,10 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label"><span class="form-inline text-Cash">*</span>字分类名称</label>
+                        <label class="control-label"><span class="form-inline text-Cash">*</span>子分类名称</label>
 
                         <div class="controls">
-                            <input type="text" id="project_name" class="span8 forminput" data-validate="^\w{1,30}$"
+                            <input type="text" name="item_name" class="span8 forminput" data-validate="^\w{1,30}$"
                                    data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字" />
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                         <label class="control-label"><span class="form-inline text-Cash">*</span>单价</label>
 
                         <div class="controls">
-                            <input type="text" id="project_name" class="span8 forminput" data-validate="^\w{1,30}$"
+                            <input type="text" name="unit_price" class="span8 forminput" data-validate="^\w{1,30}$"
                                    data-validate-msg="会员卡号;会员卡号只能是数字字母，不超过30个字"/>
                         </div>
                     </div>

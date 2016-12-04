@@ -58,7 +58,7 @@ class DB(object):
             return self.execute(sql_query=sql_query, freq=freq+1)
         return handled_item
 
-    def execute_select(self, table_name, where_value={"1": 1}, cols=None, where_cond=[], package=False):
+    def execute_select(self, table_name, where_value={"1": 1}, cols=None, where_cond=None, package=False):
         args = dict(where_value).values()
         if len(args) <= 0:
             return 0
@@ -66,10 +66,11 @@ class DB(object):
             select_item = "*"
         else:
             select_item = ",".join(tuple(cols))
+        if where_cond is None:
+            where_cond = []
         for key in dict(where_value).keys():
             where_cond.append("%s=%%s" % key)
         sql_query = "SELECT %s FROM %s WHERE %s;" % (select_item, table_name, " AND ".join(where_cond))
-        print(sql_query)
         exec_result = self.execute(sql_query, args)
         if cols is not None and package is True:
             db_items = self.fetchall()
@@ -90,7 +91,7 @@ class DB(object):
             sql_query = "INSERT INTO %s (%s) VALUES (%%(%s)s);" % (table_name, ",".join(keys), ")s,%(".join(keys))
         return self.execute(sql_query, args=kwargs)
 
-    def execute_update(self, table_name, update_value, where_value=None, where_is_none=[]):
+    def execute_update(self, table_name, update_value, where_value=None, where_is_none=None):
         args = dict(update_value).values()
         if len(args) <= 0:
             return 0
@@ -101,7 +102,7 @@ class DB(object):
             args.extend(where_args)
             for key in dict(where_value).keys():
                 where_cond.append("%s=%%s" % key)
-        if len(where_is_none) > 0:
+        if isinstance(where_is_none, list):
             for key in where_is_none:
                 where_cond.append("%s is NULL" % key)
         sql_query += " AND ".join(where_cond)
