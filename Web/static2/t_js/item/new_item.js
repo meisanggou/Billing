@@ -3,5 +3,5 @@
  */
 
 $(document).ready(function(){
-	$("#li_new_item").addClass("active open");
+	$("#li_add_item").addClass("active open");
 });

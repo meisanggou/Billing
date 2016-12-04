@@ -4,15 +4,21 @@
     "table_comment": "收费分类",
     "table_cols": [
       {
+        "col_name": "project_no",
+        "col_type": "char(32)",
+        "pri_key": true,
+        "col_comment": "收费分类所属项目号"
+      },
+      {
         "col_name": "item_no",
         "col_type": "int(11)",
         "pri_key": true,
-        "col_comment": "收费项目号"
+        "col_comment": "收费分类号"
       },
       {
         "col_name": "item_name",
         "col_type": "varchar(30)",
-        "col_comment": "扣费项目的名称"
+        "col_comment": "扣费分类的名称"
       },
       {
         "col_name": "billing_method",
@@ -22,7 +28,7 @@
       {
         "col_name": "billing_unit",
         "col_type": "int(11)",
-        "col_comment": "扣费单位 方式1时为每n次为收费单位 方式2时为每n秒为收费单位"
+        "col_comment": "收费单位 方式1时为每n次为收费单位 方式2时为每n秒为收费单位"
       },
       {
         "col_name": "unit_price",

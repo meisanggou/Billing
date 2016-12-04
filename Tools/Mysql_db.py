@@ -58,7 +58,7 @@ class DB(object):
             return self.execute(sql_query=sql_query, freq=freq+1)
         return handled_item
 
-    def execute_select(self, table_name, where_value={"1": 1}, cols=None, package=False):
+    def execute_select(self, table_name, where_value={"1": 1}, cols=None, where_cond=[], package=False):
         args = dict(where_value).values()
         if len(args) <= 0:
             return 0
@@ -66,8 +66,10 @@ class DB(object):
             select_item = "*"
         else:
             select_item = ",".join(tuple(cols))
-        sql_query = "SELECT %s FROM %s WHERE %s=%%s;" \
-                    % (select_item, table_name, "=%s AND ".join(dict(where_value).keys()))
+        for key in dict(where_value).keys():
+            where_cond.append("%s=%%s" % key)
+        sql_query = "SELECT %s FROM %s WHERE %s;" % (select_item, table_name, " AND ".join(where_cond))
+        print(sql_query)
         exec_result = self.execute(sql_query, args)
         if cols is not None and package is True:
             db_items = self.fetchall()
