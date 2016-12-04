@@ -41,6 +41,11 @@ class ItemManager(object):
                 return False, "主分类下最多添加99个子分类"
         return self.insert_item(project_no, item_no, item_name, unit_price)
 
+    def select_item(self, project_no):
+        cols = ["item_no", "item_name", "billing_method", "billing_unit", "unit_price"]
+        db_items = self.db.execute_select(self.t_item, where_value={"project_no": project_no}, cols=cols, package=True)
+        return True, db_items
+
 
 if __name__ == "__main__":
     i_man = ItemManager()
