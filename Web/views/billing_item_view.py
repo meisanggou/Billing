@@ -22,6 +22,8 @@ def add_billing_item_page_func():
         action = request.args["action"]
     if action == "add":
         return rt.render("new_item.html")
+    elif action == "update":
+        return rt.render("update_item.html")
     return rt.render("list_item.html")
 
 

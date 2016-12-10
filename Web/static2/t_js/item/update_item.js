@@ -24,6 +24,7 @@ function load_items_info(data){
                 tr.append(new_td(keys[index], data[i]));
             }
         }
+        tr.append($('<td><a href="javascript:void(0)">修改</a> | <a href="javascript:void(0)">暂停</a> | <a href="javascript:void(0)">删除</a></td>'));
         t_items.append(tr);
     }
     for(var j in main_list){
@@ -35,7 +36,7 @@ function load_items_info(data){
 }
 
 $(document).ready(function(){
-	$("#li_list_item").addClass("active open");
+	$("#li_update_item").addClass("active open");
     var item_data_url = location.href;
     my_async_request(item_data_url, "GET", null, load_items_info);
 });

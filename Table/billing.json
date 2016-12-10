@@ -39,6 +39,12 @@
         "col_name": "member_price",
         "col_type": "int(11)",
         "col_comment": "会员单价"
+      },
+      {
+        "col_name": "status",
+        "col_type": "tinyint(4)",
+        "col_comment": "分类状态 0正常 1暂停使用 其他后续使用",
+        "default_value": 0
       }
     ]
   }
