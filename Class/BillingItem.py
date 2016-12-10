@@ -11,16 +11,20 @@ class ItemManager(object):
         self.db = DB()
         self.t_item = "billing_item"
 
-    def insert_item(self, project_no, item_no, item_name, unit_price):
+    def insert_item(self, project_no, item_no, item_name, unit_price, member_price):
         kwargs = dict(project_no=project_no, item_no=item_no, item_name=item_name, billing_method=1, billing_unit=1,
-                      unit_price=unit_price)
+                      unit_price=unit_price, member_price=member_price)
         l = self.db.execute_insert(self.t_item, kwargs=kwargs, ignore=True)
         if l <= 0:
             return False, l
         return True, kwargs
 
-    def new_item(self, project_no, item_name, unit_price=0, basic_item=None):
+    def new_item(self, project_no, item_name, unit_price=0, member_price=None, basic_item=None):
         unit_price *= 100
+        if member_price is None:
+            member_price = unit_price
+        else:
+            member_price *= 100
         where_value = dict(project_no=project_no)
         if basic_item is None:
             self.db.execute_select(self.t_item, where_value=where_value, cols=["MAX(item_no)"])
@@ -40,11 +44,14 @@ class ItemManager(object):
             item_no = max_no + 1
             if item_no >= next_basic_item:
                 return False, "主分类下最多添加99个子分类"
-        return self.insert_item(project_no, item_no, item_name, unit_price)
+        return self.insert_item(project_no, item_no, item_name, unit_price, member_price)
 
     def select_item(self, project_no):
-        cols = ["item_no", "item_name", "billing_method", "billing_unit", "unit_price"]
+        cols = ["item_no", "item_name", "billing_method", "billing_unit", "unit_price", "member_price"]
         db_items = self.db.execute_select(self.t_item, where_value={"project_no": project_no}, cols=cols, package=True)
+        for item in db_items:
+            item["unit_price"] /= 100.00
+            item["member_price"] /= 100.00
         return True, db_items
 
 

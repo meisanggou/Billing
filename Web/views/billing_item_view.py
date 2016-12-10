@@ -17,11 +17,16 @@ def add_billing_item_page_func():
     if g.accept_json is True:
         result, items_info = control.get_billing_items(g.project_no)
         return jsonify({"status": result, "data": items_info})
-    return rt.render("new_item.html")
+    action = "list"
+    if "action" in request.args:
+        action = request.args["action"]
+    if action == "add":
+        return rt.render("new_item.html")
+    return rt.render("list_item.html")
 
 
 @billing_item_view.route("/", methods=["POST"])
 def add_billing_item_func():
     request_data = request.json
     result, info = control.new_item(project_no=g.project_no, **request_data)
-    return jsonify({"status": result, "data": info})
+    return jsonify({"status": result, "data": info, "location": url_prefix + "/"})

@@ -37,6 +37,10 @@ function query_option(select_id, v, query_t){
     return query_option;
 }
 
+function clear_table(table_id){
+    $("#" + table_id + " tr").not(":first").remove();
+}
+
 function new_td(key, obj){
     var td = $("<td></td>");
     if(key in obj){

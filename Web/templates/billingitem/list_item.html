@@ -1,0 +1,43 @@
+{% extends "billingitem/item_base.html" %}
+
+{% block css_content %}
+    {{ 't_css/main.css' | make_static_html | safe }}
+{% endblock %}
+
+{% block js_content %}
+    {{ 't_js/item/list_item.js' | make_static_html | safe }}
+    {{ 't_js/Common/add_node.js' | make_static_html | safe }}
+    {{ 't_js/Common/data_validate.js' | make_static_html | safe }}
+{% endblock %}
+
+{% block item_content %}
+    <div class="container-fluid form-horizontal" id="div_sub_item">
+
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box" style="width: 50%">
+                    <div class="widget-title">
+                        <span class="icon"> <i class="icon-th-list"></i> </span> <h5>收费分类列表</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table id="t_list_item" class="table table-hover" cellspacing="0"  >
+                            <thead>
+                            <tr>
+                                <th>主分类</th>
+                                <th>子分类</th>
+                                <th>单价</th>
+                                <th>会员单价</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td>主分类</td>
+                                <td>子分类</td>
+                                <td>单价</td>
+                                <td>会员单价</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

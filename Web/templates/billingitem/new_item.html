@@ -38,7 +38,7 @@
                         <label class="control-label"><span class="form-inline text-Cash">*</span>主分类名称</label>
 
                         <div class="controls">
-                            <select id="main_items_list" type="text" name="basic_item" class="span8 forminput" required data-validate="^\d{1,6}$" >
+                            <select id="main_items_list" type="text" name="basic_item" class="span8 forminput" required data-validate="^\d{1,6}$" data-validate-msg="主分类;">
                                 </select>
                         </div>
                     </div>
@@ -56,6 +56,14 @@
                         <div class="controls">
                             <input type="text" name="unit_price" class="span8 forminput" required data-validate="^\d{1,8}\.{0,1}\d{0,2}$"
                                    data-validate-msg="单价;单价必须是整数或者小数点两位"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"><span class="form-inline text-Cash">*</span>会员单价</label>
+
+                        <div class="controls">
+                            <input type="text" name="member_price" class="span8 forminput" required data-validate="^\d{1,8}\.{0,1}\d{0,2}$"
+                                   data-validate-msg="会员单价;会员单价必须是整数或者小数点两位"/>
                         </div>
                     </div>
                 </div>

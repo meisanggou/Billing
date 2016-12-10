@@ -34,6 +34,11 @@
         "col_name": "unit_price",
         "col_type": "int(11)",
         "col_comment": "单价"
+      },
+      {
+        "col_name": "member_price",
+        "col_type": "int(11)",
+        "col_comment": "会员单价"
       }
     ]
   }

@@ -14,7 +14,7 @@ function data_validate(div_id){
         var data_required = input_item.attr("required");
         var data_rule = input_item.attr("data-validate");
         var validate_result = 0;
-        if (data_value == "") {
+        if (data_value == "" || data_value == null) {
             if (data_required != undefined) {
                 input_item.select();
                 validate_result = 1;
@@ -32,10 +32,10 @@ function data_validate(div_id){
         }
         if(validate_result != 0){
             var data_rule_msg = input_item.attr("data-validate-msg");
-            var mul_msg = data_rule_msg.split(";");
             if (data_rule_msg == undefined) {
                     return [false, "系统错误"];
             }
+            var mul_msg = data_rule_msg.split(";");
             if (mul_msg.length < 2) {
                 return [false, "系统调用错误"]
             }
