@@ -27,7 +27,7 @@ function data_validate(div_id){
             var r = new RegExp(data_rule);
             if (!data_value.match(r)) {
                 input_item.select();
-
+                validate_result = 2;
             }
         }
         if(validate_result != 0){

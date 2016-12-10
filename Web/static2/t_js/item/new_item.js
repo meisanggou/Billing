@@ -36,7 +36,7 @@ $(document).ready(function(){
         }
         var input_data = validate_result[1];
         input_data["basic_item"] = parseInt(input_data["basic_item"]);
-        input_data["unit_price"] = parseInt(input_data["unit_price"]);
+        input_data["unit_price"] = parseFloat(input_data["unit_price"]);
         //if(query_option("main_items_list", input_data.item_name, "text").length > 0){
         //    show_msg("已经有 " + input_data.item_name + " 这个分类了，输个别的吧");
         //    return false;

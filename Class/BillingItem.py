@@ -20,6 +20,7 @@ class ItemManager(object):
         return True, kwargs
 
     def new_item(self, project_no, item_name, unit_price=0, basic_item=None):
+        unit_price *= 100
         where_value = dict(project_no=project_no)
         if basic_item is None:
             self.db.execute_select(self.t_item, where_value=where_value, cols=["MAX(item_no)"])
