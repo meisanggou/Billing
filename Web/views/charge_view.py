@@ -13,16 +13,6 @@ charge_view = create_blue("charge_view", url_prefix=url_prefix)
 
 
 @charge_view.route("/", methods=["GET"])
-def add_billing_item_page_func():
-    if g.accept_json is True:
-        result, items_info = control.get_billing_items(g.project_no)
-        return jsonify({"status": result, "data": items_info})
-    action = "list"
-    if "action" in request.args:
-        action = request.args["action"]
-    if action == "add":
-        return rt.render("new_item.html")
-    elif action == "update":
-        return rt.render("update_item.html")
-    return rt.render("list_item.html")
+def add_charge_page_func():
+    return rt.render("charge_base.html")
 
