@@ -83,6 +83,7 @@ dms_url_prefix = ""
 project_url_prefix = "/project"
 member_url_prefix = "/member"
 billing_item_url_prefix = "/item"
+charge_url_prefix = "/charge"
 
 
 blues = {}

@@ -3,6 +3,5 @@
  */
 
 $(function(){
-    $("#li_member").addClass("active open");
     $("#li_list_member").addClass("active open");
 });

@@ -17,6 +17,7 @@
     {{ 't_js/Common/my_requests.js' | make_static_html | safe }}
     {{ 't_js/Common/msg_box.js' | make_static_html | safe }}
     {{ 't_js/Common/handler_data.js' | make_static_html | safe }}
+    {{ 't_js/base_v2.js' | make_static_html | safe }}
     <!-- Sweet Alert 弹窗 -->
     {{ 't_css/sweetalert.css' | make_static_html | safe }}
     {{ 't_js/Common/sweetalert-dev.js' | make_static_html | safe }}
@@ -90,13 +91,13 @@
 <div id="sidebar">
     <a href="#" class="visible-phone"><i class="icon icon-cashier"></i><span id="php-cashier">展开菜单</span></a>
     <ul>
-        <li class="cashier"><a href="/portal/"><i class="icon icon-tasks"></i> <span>收银</span></a></li>
+        <li class="cashier" id="li_charge"><a href="/portal/"><i class="icon icon-tasks"></i> <span>收银</span></a></li>
 
         <li class="cashier" id="li_member"><a href="/member/"><i class="icon icon-user"></i> <span>会员</span><span class="label">0</span></a></li>
 
-        <li class="cashier"><a href="/item/"><i class="icon icon-tasks"></i> <span>收费分类</span></a></li>
+        <li class="cashier" id="li_item"><a href="/item/"><i class="icon icon-tasks"></i> <span>收费分类</span></a></li>
 
-        <li class="cashier"><a href="/project/"><i class="icon icon-tasks"></i> <span>项目管理</span></a></li>
+        <li class="cashier" id="li_project"><a href="/project/"><i class="icon icon-tasks"></i> <span>项目管理</span></a></li>
 
     </ul>
 </div>
