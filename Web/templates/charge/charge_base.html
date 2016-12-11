@@ -3,11 +3,11 @@
 {% block content %}
     <div id="content-header">
         <ul class="nav nav-tabs">
-            <li id="li_list_item"><a href="/charge/">收银</a></li>
-            <li id="li_add_item"><a href="/charge/?action=add">添加分类</a></li>
-            <li id="li_update_item"><a href="/charge/?action=update">修改分类</a></li>
+            <li id="li_record_charge"><a href="/charge/">收银</a></li>
+            <li id="li_add_item"><a href="/charge/?action=add">今日流水</a></li>
+            <li id="li_update_item"><a href="/charge/?action=update">会员账单</a></li>
         </ul>
     </div>
-    {% block item_content %}
+    {% block charge_content %}
     {% endblock %}
 {% endblock %}

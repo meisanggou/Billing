@@ -1,0 +1,85 @@
+{% extends "charge/charge_base.html" %}
+
+{% block css_content %}
+    {{ 't_css/datepicker.css' | make_static_html | safe }}
+{% endblock %}
+
+{% block js_content %}
+    {{ 't_js/Common/moment.min.js' | make_static_html | safe }}
+    {{ 't_js/Common/daterangepicker.js' | make_static_html | safe }}
+    {{ 't_js/Common/data_validate.js' | make_static_html | safe }}
+    {{ 't_js/charge/charge.js' | make_static_html | safe }}
+{% endblock %}
+
+{% block charge_content %}
+    <div id="formdata" class="container-fluid">
+        <input type="hidden" value="0" name="curid" id="curid">
+        <div id="div_member_info" class="form-horizontal">
+            <div class="row-fluid" style="margin-top:0">
+                <div class="span12">
+                    <div class="span6">
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>收费主分类</label>
+                            <div class="controls">
+                                <select type="text" name="main_item" class="span8 forminput"  >
+                                    <option value=0>全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>收费子分类</label>
+
+                            <div class="controls">
+                                <select type="text" name="main_item" class="span8 forminput"  >
+                                    <option value=0>全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>金　　额</label>
+
+                            <div class="controls">
+                                <input type="text" name="member_tel" class="span8 forminput" data-validate="^1\d{10}$" required data-validate-msg="手机号;请输入正确的手机号"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label"><span class="form-inline text-Cash">*</span>性　　别</label>
+                            <div class="controls">
+                                <select type="text" name="member_sex" class="span8 forminput"  >
+                                    <option value=0>男</option>
+                                    <option value=1>女</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">生　　日</label>
+
+                            <div class="controls">
+                                <input class="span8 forminput date active" name="member_birth" id="opencardday" value="" type="text" data-validate="^\d{4}-\d{1,2}-\d{1,2}" data-validate-msg="出生日期;请输入正确的出生日期" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">消费密码</label>
+
+                            <div class="controls">
+                                <input type="text" name="member_pwd" class="span8 forminput" data-validate="^\d{6}$" required data-validate-msg="消费密码;请输入6位消费密码"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">备　　注</label>
+
+                            <div class="controls">
+                                <textarea class="span8 forminput" name="member_remark" data-validate="^[\s\S]{0,100}$" data-validate-msg="备注;备注内容太多了"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="BTsave">
+                <button class="btn btn-large btn-primary submitbtn span3" id="btn_save">确定</button>
+            </div>
+        </div>
+    </div>
+    <!--整体页面结束，以下是弹出窗口-->
+</div>
+{% endblock %}

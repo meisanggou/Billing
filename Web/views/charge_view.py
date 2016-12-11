@@ -14,5 +14,5 @@ charge_view = create_blue("charge_view", url_prefix=url_prefix)
 
 @charge_view.route("/", methods=["GET"])
 def add_charge_page_func():
-    return rt.render("charge_base.html")
+    return rt.render("charge.html")
 
