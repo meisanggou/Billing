@@ -4,38 +4,56 @@
 function load_items_info(data){
     console.info(data);
     //clear_table("t_list_item");
-    //var items_len = data.length;
-    //var t_items = $("#t_list_item");
-    //var keys = new Array("item_no", "item_name", "unit_price", "member_price");
-    //var main_list = new Array();
-    //var main_index = 0;
-    //for(var i=0;i<items_len;i++){
-    //    var tr = $("<tr id='tr_item_" + data[i].item_no + "'></tr>");
-    //    if(data[i].item_no % 100 == 0) {
-    //        tr.append($("<td>-</td>"));
-    //        tr.append($("<td>-</td>"));
-    //        tr.append($("<td>-</td>"));
-    //        tr.append($("<td>-</td>"));
-    //        main_list[main_index] = data[i];
-    //        main_index++;
-    //    }
-    //    else {
-    //        for (var index in keys) {
-    //            tr.append(new_td(keys[index], data[i]));
-    //        }
-    //    }
-    //    t_items.append(tr);
-    //}
-    //for(var j in main_list){
-    //    var main_item = main_list[j];
-    //    var item_id = "tr_item_" + main_item.item_no;
-    //    var id_prefix = item_id.substr(0, item_id.length - 2);
-    //    $("tr[id^='" + id_prefix + "']").find("td:first").text(main_item.item_name);
-    //}
+    var items_len = data.length;
+    for(var i=0;i<items_len;i++) {
+        var one_item = data[i];
+        var price_s = one_item. unit_price + "," + one_item.member_price;
+        if (one_item.item_no % 100 == 0) {
+            add_option("main_item", one_item.item_no, one_item.item_name, price_s);
+        }
+        else{
+            add_option("sub_item", one_item.item_no, one_item.item_name, price_s);
+        }
+    }
+    $("#main_item").change(function(){
+        var basic_no = parseInt($(this).val());
+        $("#sub_item option").each(function(){
+            var item_no = parseInt($(this).val());
+            if(item_no>basic_no && item_no<basic_no+100){
+                $(this).show();
+            }else{
+                $(this).hide();
+            }
+        });
+        var first_option = $("#sub_item option:visible").eq(0);
+        if(first_option.length<=0){
+            console.info("no sub item");
+            $("#sub_item").find("option:eq(0)").show();
+        }
+        first_option.attr("selected", true);
+        $("#sub_item").find("option:visible").eq(0).attr("selected", true);
+    });
+    $("#main_item").change();
 }
 
 $(function(){
     $("#li_record_charge").addClass("active open");
     var item_data_url = $("#item_url").val();
     my_async_request(item_data_url, "GET", null, load_items_info);
+});
+
+//  注册时间响应
+$(function(){
+    $("select[name='is_member']").change(function(){
+        var is_member = $(this).val();
+        if(is_member == 1){
+            $("#div_is_member").show();
+            $("#div_not_member").hide();
+        }
+        else{
+            $("#div_is_member").hide();
+            $("#div_not_member").show();
+        }
+    });
+    $("select[name='is_member']").change();
 });

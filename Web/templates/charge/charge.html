@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block js_content %}
-    {{ 't_js/Common/moment.min.js' | make_static_html | safe }}
-    {{ 't_js/Common/daterangepicker.js' | make_static_html | safe }}
+    {{ 't_js/Common/add_node.js' | make_static_html | safe }}
     {{ 't_js/Common/data_validate.js' | make_static_html | safe }}
     {{ 't_js/charge/charge.js' | make_static_html | safe }}
 {% endblock %}
@@ -22,7 +21,6 @@
 
                             <div class="controls">
                                 <select type="text" id="main_item" name="main_item" class="span8 forminput">
-                                    <option value=0>全部</option>
                                 </select>
                             </div>
                         </div>
@@ -31,7 +29,7 @@
 
                             <div class="controls">
                                 <select type="text" id="sub_item" name="charge_item" class="span8 forminput">
-                                    <option value=0>全部</option>
+                                    <option>暂无子分类</option>
                                 </select>
                             </div>
                         </div>
@@ -39,7 +37,7 @@
                             <label class="control-label"><span class="form-inline text-Cash">*</span>付款人</label>
 
                             <div class="controls">
-                                <select type="text" name="main_item" class="span8 forminput">
+                                <select type="text" name="is_member" class="span8 forminput">
                                     <option value=0>非会员</option>
                                     <option value=1>会员</option>
                                 </select>
@@ -53,26 +51,45 @@
                                        required data-validate-msg="手机号;请输入正确的手机号"/>
                             </div>
                         </div>
+                        <div id="div_not_member">
+                            <div class="control-group">
+                                <label class="control-label"><span class="form-inline text-Cash">*</span>付款方式</label>
 
-                        <div class="control-group">
-                            <label class="control-label"><span class="form-inline text-Cash">*</span>付款方式</label>
-
-                            <div class="controls">
-                                <select type="text" name="main_item" class="span8 forminput">
-                                    <option value=0>现金</option>
-                                    <option value=1>支付宝</option>
-                                    <option value=2>微信</option>
-                                    <option value=3>银行卡</option>
-                                    <option value=4>余额</option>
-                                </select>
+                                <div class="controls">
+                                    <select type="text" name="main_item" class="span8 forminput">
+                                        <option value=0>现金</option>
+                                        <option value=1>支付宝</option>
+                                        <option value=2>微信</option>
+                                        <option value=3>银行卡</option>
+                                        <option value=4>余额</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label">消费密码</label>
+                        <div id="div_is_member">
+                            <div class="control-group">
+                                <label class="control-label">选择会员</label>
 
-                            <div class="controls">
-                                <input type="text" name="member_pwd" class="span8 forminput" data-validate="^\d{6}$"
-                                       required data-validate-msg="消费密码;请输入6位消费密码"/>
+                                <div class="controls">
+                                    <select type="text" name="main_item" class="span8 forminput">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">可用积分</label>
+
+                                <div class="controls">
+                                    <input type="text" name="member_pwd" class="span8 forminput" data-validate="^\d{6}$"
+                                           required data-validate-msg="消费密码;请输入6位消费密码"/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">消费密码</label>
+
+                                <div class="controls">
+                                    <input type="text" name="member_pwd" class="span8 forminput" data-validate="^\d{6}$"
+                                           required data-validate-msg="消费密码;请输入6位消费密码"/>
+                                </div>
                             </div>
                         </div>
                         <div class="control-group">
@@ -91,5 +108,5 @@
             </div>
         </div>
     </div>
-    <input id="item_url" value="{{ item_url }}" style="display: none" />
+    <input id="item_url" value="{{ item_url }}" style="display: none"/>
 {% endblock %}
